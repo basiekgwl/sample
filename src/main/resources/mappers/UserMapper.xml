@@ -2,9 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.mapper.EmployeeMapper" >
 
-
     <resultMap id="UserMap" type="hello.User">
-        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
         <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
         <result column="user_nip" jdbcType="VARCHAR" property="userNip" />
         <result column="user_pesel" jdbcType="VARCHAR" property="userPesel" />
@@ -23,6 +22,63 @@
     </resultMap>
 
 
+    <!--  one to many relationship -->
+    <resultMap type="hello.User" id="UserMap2">
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
+        <result column="user_nip" jdbcType="VARCHAR" property="userNip" />
+        <result column="user_pesel" jdbcType="VARCHAR" property="userPesel" />
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+        <result column="city" jdbcType="VARCHAR" property="city" />
+
+        <collection property="userAccounts" javaType="List" ofType="hello.UserAccounts">
+            <result column="account_id" jdbcType="INTEGER" property="accountId" />
+            <result column="user_id" jdbcType="INTEGER" property="userId" />
+            <result column="account_type" property="accountType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+            <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb" />
+            <result column="balance" jdbcType="DECIMAL" property="balance" />
+        </collection>
+    </resultMap>
+
+    <!--  one to one relationship -->
+    <resultMap type="hello.UserAccounts" id="AccountMap2">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="account_type" property="accountType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb" />
+        <result column="balance" jdbcType="DECIMAL" property="balance" />
+
+        <association property="userData" javaType="hello.User" column="user_id">
+            <id column="user_id" jdbcType="INTEGER" property="userId" />
+            <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
+            <result column="user_nip" jdbcType="VARCHAR" property="userNip" />
+            <result column="user_pesel" jdbcType="VARCHAR" property="userPesel" />
+            <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+            <result column="city" jdbcType="VARCHAR" property="city" />
+        </association>
+    </resultMap>
+
+    <!--  one to many relationship -->
+    <select id="getAllAccountsForUserById" resultType="hello.User" resultMap="UserMap2">
+        SELECT user_name, user_nip, user.user_id as user_id, account_nrb, balance
+        FROM user
+        JOIN user_accounts ON user.user_id = user_accounts.user_id
+        where user.user_id = #{userId}
+    </select>
+
+    <!--  one to one relationship -->
+    <select id="getAccountAndUserData" resultType="hello.UserAccounts" resultMap="AccountMap2">
+        SELECT user_name, user_nip, user.user_id as user_id, account_nrb, balance
+        FROM user_accounts
+        JOIN user ON user.user_id = user_accounts.user_id
+        where user_accounts.account_nrb = #{accountNrb}
+    </select>
+
+    <sql id="all-user-fields">
+        user_name, user_nip, user_pesel, user_addres from USER
+    </sql>
+
+
     <select id="getAllAccounts" resultMap = "AccountMap" resultType="hello.UserAccounts" >
         select account_type, account_nrb, balance from user_accounts;
     </select>
@@ -31,14 +87,13 @@
         select * from user_accounts where account_nrb =  #{nrb};
     </select>
 
+
+
+
     <insert id="insertAccountData" parameterType="hello.UserAccounts" keyProperty="accountId" timeout="10" useGeneratedKeys="true">
         insert into user_accounts (user_id, account_nrb, account_type, balance) values (
         #{userId}, #{accountNrb}, #{accountType, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{balance}
         )
     </insert>
-
-
-
-
 
 </mapper>

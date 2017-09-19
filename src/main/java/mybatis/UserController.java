@@ -122,4 +122,27 @@ public class UserController {
         employeeMapper.insertNewAccount(accountData);
         return accountData.getAccountId();
     }
+
+    @GetMapping(path = "/getAccountsForUser")
+    public @ResponseBody
+    User getAccountsForUserById(@RequestParam long userId) {
+        User userData = employeeMapper.getAllAccountsForUserById(userId);
+        log.info("AccountsData: " + userData.getUserAccounts());
+        return userData;
+    }
+
+    @GetMapping(path = "/getOneAccountAndUserData")
+    public @ResponseBody
+    UserAccounts getOneAccountAndUserData(@RequestParam String accountNrb) {
+        return employeeMapper.getAccountAndUserData(accountNrb);
+    }
+
+
+    @GetMapping(path = "/getAccountsForUser2")
+    public @ResponseBody
+    User getMyAllUsers(@RequestParam long userId) {
+        User userData = employeeMapper.getMyAllUsers(userId);
+        log.info("AccountsData: " + userData.getUserAccounts());
+        return userData;
+    }
 }

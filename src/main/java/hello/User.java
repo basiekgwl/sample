@@ -1,9 +1,13 @@
 package hello;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
@@ -19,7 +23,7 @@ public class User {
 
     private String city;
 
-    private List<UserAccounts> user_accounts;
+    private List<UserAccounts> userAccounts;
 
 
     public User() {
@@ -39,54 +43,6 @@ public class User {
         this.userNip = userNip;
         this.userPesel = userPesel;
         this.userAddress = userAddress;
-        this.city = city;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserFullName() {
-        return userFullName;
-    }
-
-    public void setUserFullName(String userFullName) {
-        this.userFullName = userFullName;
-    }
-
-    public String getUserNip() {
-        return userNip;
-    }
-
-    public void setUserNip(String userNip) {
-        this.userNip = userNip;
-    }
-
-    public String getUserPesel() {
-        return userPesel;
-    }
-
-    public void setUserPesel(String userPesel) {
-        this.userPesel = userPesel;
-    }
-
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
         this.city = city;
     }
 

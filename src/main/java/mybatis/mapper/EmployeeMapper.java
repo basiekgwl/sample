@@ -4,6 +4,7 @@ import hello.AccountType;
 import hello.User;
 import hello.UserAccounts;
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,7 +29,7 @@ public interface EmployeeMapper {
     @ResultMap("UserMap")
     @Insert("INSERT into user(user_name, user_nip, user_pesel,user_address, city) " +
             "VALUES(#{userFullName}, #{userNip}, #{userPesel}, #{userAddress}, #{city})")
-    @Options(useGeneratedKeys=true, keyProperty="userId")
+    @Options(useGeneratedKeys = true, keyProperty = "userId")
     long insertNewUser(User userData);
 
     @ResultMap("UserMap")
@@ -52,6 +53,28 @@ public interface EmployeeMapper {
     @ResultMap("AccountMap")
     @Insert("INSERT into user_accounts(user_id, account_type, account_nrb, balance) " +
             "VALUES(#{userId}, #{accountType}, #{accountNrb}, #{balance})")
-    @Options(useGeneratedKeys=true, keyProperty="accountId")
+    @Options(useGeneratedKeys = true, keyProperty = "accountId")
     long insertNewAccount(UserAccounts account);
+
+
+    // it doesn't work so far :/ strange ???
+    @Select("SELECT user.user_name, user.user_nip, user.user_address, user.city FROM user where user.user_id = #{userId}")
+    @Results(value = {
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "userFullName", column = "user_name"),
+            @Result(property = "userNip", column = "user_nip"),
+            @Result(property = "userAddress", column = "user_address"),
+            @Result(property = "userAccounts", javaType = List.class, column = "user_id", many = @Many(select = "getUserAccounts"))
+    })
+    User getMyAllUsers(long userId);
+
+    @ResultMap("AccountMap")
+    @Select("SELECT usa.account_type, usa.account_nrb FROM user_accounts as usa WHERE usa.user_id = #{userId}")
+    List<UserAccounts> getUserAccounts(long userId);
+
+
+    // one to many - xml
+    User getAllAccountsForUserById(@Param("userId") long userId);
+    // one to one - xml
+    UserAccounts getAccountAndUserData(String accountNrb);
 }
