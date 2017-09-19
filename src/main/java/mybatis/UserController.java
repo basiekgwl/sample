@@ -1,6 +1,8 @@
 package mybatis;
 
+import hello.AccountType;
 import hello.User;
+import hello.UserAccounts;
 import lombok.extern.slf4j.Slf4j;
 import mybatis.dao.UserDao;
 import mybatis.mapper.EmployeeMapper;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -40,7 +43,6 @@ public class UserController {
         }
         return results;
     }
-
 
     UserDao userDao = new UserDao();
 
@@ -75,5 +77,49 @@ public class UserController {
         User myUser = new User(userId, fullName, userNip, userPesel, address, city);
         userDao.update(myUser);
         return "User was updated successfully!!!";
+    }
+
+
+    @GetMapping(path = "/userAccounts")
+    public @ResponseBody
+    List<UserAccounts> getUserAccounts(@RequestParam Long userId) {
+        return employeeMapper.findAccountsByUserId(userId);
+    }
+
+    @GetMapping(path = "/getAllAccounts")
+    public @ResponseBody
+    List<UserAccounts> getAllAccounts() {
+        return employeeMapper.getAllAccounts();
+    }
+
+    @GetMapping(path = "/getAccountByNrb")
+    public @ResponseBody
+    UserAccounts getAccountData(@RequestParam String nrb) {
+        return employeeMapper.getAccountByNumber(nrb);
+    }
+
+    @GetMapping(path = "/insertNrbForUser")
+    public @ResponseBody
+    long insertNrbData(@RequestParam int id,
+                       @RequestParam String nrb,
+                       @RequestParam AccountType type,
+                       @RequestParam BigDecimal balance) {
+
+        UserAccounts accountData = new UserAccounts(id, type, nrb, balance);
+        employeeMapper.insertAccountData(accountData);
+
+        return accountData.getAccountId();
+    }
+
+    @GetMapping(path = "/insertNrb")
+    public @ResponseBody
+    long insertNrb(@RequestParam int id,
+                   @RequestParam AccountType type,
+                   @RequestParam String nrb,
+                   @RequestParam BigDecimal balance) {
+
+        UserAccounts accountData = new UserAccounts(id, type, nrb, balance);
+        employeeMapper.insertNewAccount(accountData);
+        return accountData.getAccountId();
     }
 }

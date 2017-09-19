@@ -2,6 +2,8 @@ package hello;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
@@ -16,6 +18,9 @@ public class User {
     private String userAddress;
 
     private String city;
+
+    private List<UserAccounts> user_accounts;
+
 
     public User() {
     }
@@ -35,12 +40,6 @@ public class User {
         this.userPesel = userPesel;
         this.userAddress = userAddress;
         this.city = city;
-    }
-
-    public User(String userFullName, String userPesel, String userAddress) {
-        this.userFullName = userFullName;
-        this.userPesel = userPesel;
-        this.userAddress = userAddress;
     }
 
     public Long getUserId() {

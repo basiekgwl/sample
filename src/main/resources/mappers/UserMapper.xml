@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.mapper.EmployeeMapper" >
+
+
     <resultMap id="UserMap" type="hello.User">
         <result column="user_id" jdbcType="INTEGER" property="userId" />
         <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
@@ -10,5 +12,33 @@
         <result column="city" jdbcType="VARCHAR" property="city" />
         <!--  other columns -->
     </resultMap>
+
+    <resultMap id="AccountMap" type="hello.UserAccounts">
+        <result column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="account_type" property="accountType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb" />
+        <result column="balance" jdbcType="DECIMAL" property="balance" />
+        <!--  other columns -->
+    </resultMap>
+
+
+    <select id="getAllAccounts" resultMap = "AccountMap" resultType="hello.UserAccounts" >
+        select account_type, account_nrb, balance from user_accounts;
+    </select>
+
+    <select id="getAccountByNumber" resultMap = "AccountMap" resultType="hello.UserAccounts" >
+        select * from user_accounts where account_nrb =  #{nrb};
+    </select>
+
+    <insert id="insertAccountData" parameterType="hello.UserAccounts" keyProperty="accountId" timeout="10" useGeneratedKeys="true">
+        insert into user_accounts (user_id, account_nrb, account_type, balance) values (
+        #{userId}, #{accountNrb}, #{accountType, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{balance}
+        )
+    </insert>
+
+
+
+
 
 </mapper>

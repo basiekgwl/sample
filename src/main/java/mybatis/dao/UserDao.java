@@ -7,12 +7,13 @@ import org.apache.ibatis.session.SqlSession;
 
 public class UserDao {
 
-    public void save(User userData){
+    public long save(User userData){
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
-        mapper.insertNewUser(userData);
+        long userId = mapper.insertNewUser(userData);
         session.commit();
         session.close();
+        return userId;
     }
 
     public void update(User userData){
