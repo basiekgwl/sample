@@ -17,7 +17,7 @@ import java.util.List;
 public class HowCreateMyBatisMapper {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
-    private static final String MYBATIS_CONF = "mybatis-conf.xml";
+    private static final String MYBATIS_CONF = "mybatis-config.xml";
 
     public static void main(String[] args) throws Exception {
 
