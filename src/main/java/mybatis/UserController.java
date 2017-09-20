@@ -8,10 +8,12 @@ import mybatis.dao.UserDao;
 import mybatis.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -123,9 +125,9 @@ public class UserController {
         return accountData.getAccountId();
     }
 
-    @GetMapping(path = "/getAccountsForUser")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAccountsForUser/{userId}")
     public @ResponseBody
-    User getAccountsForUserById(@RequestParam long userId) {
+    User getAccountsForUserById(@PathVariable long userId) {
         User userData = employeeMapper.getAllAccountsForUserById(userId);
         log.info("AccountsData: " + userData.getUserAccounts());
         return userData;
