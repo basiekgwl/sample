@@ -16,7 +16,7 @@ public class SampleXmlApplication implements CommandLineRunner{
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(SampleXmlApplication.class, args);
     }
 

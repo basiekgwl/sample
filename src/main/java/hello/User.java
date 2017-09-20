@@ -8,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     private Long userId;
@@ -24,7 +23,6 @@ public class User {
     private String city;
 
     private List<UserAccounts> userAccounts;
-
 
     public User() {
     }

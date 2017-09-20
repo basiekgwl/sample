@@ -7,21 +7,115 @@ import lombok.extern.slf4j.Slf4j;
 import mybatis.dao.UserDao;
 import mybatis.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
-@Controller    // This means that this class is a Controller
+@Validated
+@RestController   // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
 public class UserController {
+
+    public static final String MISSING_PARAM_ERROR_MSG = "[Missing Parameter]";
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ConstraintViolationException.class})
+    ModelMap handleBadRequests(HttpServletRequest req, ConstraintViolationException ex) throws Exception {
+
+        Object value = ex.getConstraintViolations();
+
+        log.error("getConstraintViolations: " + value);
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("status", "400");
+        mav.addObject("statusHTTP", HttpStatus.BAD_REQUEST);
+        mav.addObject("error", "Bad Request");
+        mav.addObject("exception","ConstraintViolationException");
+        mav.addObject("message", value.toString());
+        mav.addObject("path", req.getRequestURL());
+
+        return mav.getModelMap();
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
+    public ModelMap handleTypeMismatch(HttpServletRequest req, MethodArgumentTypeMismatchException ex)
+            throws Exception {
+
+        String name = ex.getName();
+        String type = ex.getRequiredType().getSimpleName();
+        Object value = ex.getValue();
+
+        String message = String.format("'%s' should be a valid '%s' but '%s' isn't",
+                name, type, value);
+
+        log.error("Request: " + req.getRequestURL() + " raised " + ex);
+        log.error(message);
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("status", "400");
+        mav.addObject("statusHTTP", HttpStatus.BAD_REQUEST);
+        mav.addObject("error", "Bad Request");
+        mav.addObject("exception", ex.getErrorCode());
+        mav.addObject("message", message);
+        mav.addObject("path", req.getRequestURL());
+
+        mav.setViewName(message);
+        Object className = mav.getModelMap().getClass();
+
+        log.info("Model class: " + className);
+
+        log.info("Model: " + mav.getModelMap());
+        return mav.getModelMap();
+    }
+
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    public ModelMap handleTypeMismatch(HttpServletRequest req, MissingServletRequestParameterException ex)
+            throws Exception {
+
+        final String exceptionPath = "org.springframework.web.bind.MissingServletRequestParameterException";
+
+        log.error("Request: " + req.getRequestURL() + " raised " + ex);
+        log.error(MISSING_PARAM_ERROR_MSG);
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("status", "400");
+        mav.addObject("statusHTTP", HttpStatus.BAD_REQUEST);
+        mav.addObject("error", "Bad Request");
+        mav.addObject("exception", exceptionPath);
+        mav.addObject("message", ex.getMessage());
+        mav.addObject("customMessage", MISSING_PARAM_ERROR_MSG);
+        mav.addObject("path", req.getRequestURL());
+
+        mav.setViewName(MISSING_PARAM_ERROR_MSG);
+        Object className = mav.getModelMap().getClass();
+
+        log.info("Model class: " + className);
+
+        log.info("Model: " + mav.getModelMap());
+        return mav.getModelMap();
+    }
+
 
     @Autowired // This means to get the bean called userRepository
     // Which is auto-generated by Spring, we will use it to handle the data
@@ -50,11 +144,11 @@ public class UserController {
 
     @GetMapping(path = "/insertUser")
     public @ResponseBody
-    String addNewUser(@RequestParam String fullName,
-                      @RequestParam String userNip,
-                      @RequestParam String userPesel,
-                      @RequestParam String address,
-                      @RequestParam String city) {
+    String addNewUser(@Size(max=100, message = "fullName should have max 100 characters") @RequestParam String fullName,
+                      @Size(min = 10, max=10, message = "userNip should have max 10 characters") @RequestParam String userNip,
+                      @Size(min = 11, max=11, message = "userPesel should have max 11 characters") @RequestParam String userPesel,
+                      @Size(max=100, message = "address should have max 100 characters") @RequestParam String address,
+                      @Size(max=40, message = "city should have max 40 characters") @RequestParam String city) {
 
         User myUser = new User();
         myUser.setUserFullName(fullName);
@@ -125,18 +219,42 @@ public class UserController {
         return accountData.getAccountId();
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/getAccountsForUser/{userId}")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAccountsForUser")
     public @ResponseBody
-    User getAccountsForUserById(@PathVariable long userId) {
+    User getAccountsForUserById(@RequestParam("userId") Long userId) {
+
+        log.info("PRE userId: " + userId);
+
+
+        if (userId == null || userId < 1) {
+            log.error(" !!!!!!!!!!!!!!  exception !!!!!!!!!!!!!!!!");
+            log.error("userId: " + userId);
+            throw new UserDataNotFoundException();
+        }
+
         User userData = employeeMapper.getAllAccountsForUserById(userId);
+
+        if (userData == null) {
+            log.error(" !!!!!!!!!!!!!!  NULL  !!!!!!!!!!!!!!!!");
+            throw new UserDataNotFoundException();
+        }
+
+        log.info("Data: " + userData);
         log.info("AccountsData: " + userData.getUserAccounts());
         return userData;
     }
 
     @GetMapping(path = "/getOneAccountAndUserData")
     public @ResponseBody
-    UserAccounts getOneAccountAndUserData(@RequestParam String accountNrb) {
-        return employeeMapper.getAccountAndUserData(accountNrb);
+    UserAccounts getOneAccountAndUserData(@Size(min = 26, max=26, message = "accountNbr should be 26 characters long") @RequestParam String accountNrb) {
+
+        UserAccounts userAccount = employeeMapper.getAccountAndUserData(accountNrb);
+        if (userAccount == null) {
+
+            log.error(" !!!!!!!!!!!!!!  NULL  !!!!!!!!!!!!!!!!");
+            throw new UserDataNotFoundException();
+        }
+        return userAccount;
     }
 
 
