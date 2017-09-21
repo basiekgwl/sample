@@ -11,7 +11,6 @@ import org.junit.Rule;
 
 @Slf4j
 @ToString
-@EqualsAndHashCode
 public class SimpleTest extends TestCase {
 
     protected BigDecimal salaryEmployee1;

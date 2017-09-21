@@ -16,14 +16,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Validated
@@ -35,28 +31,23 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ConstraintViolationException.class})
-    ModelMap handleBadRequests(HttpServletRequest req, ConstraintViolationException ex) throws Exception {
+    ModelMap handleBadRequests(HttpServletRequest req, ConstraintViolationException ex) {
 
         Object value = ex.getConstraintViolations();
 
         log.error("getConstraintViolations: " + value);
 
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("status", "400");
-        mav.addObject("statusHTTP", HttpStatus.BAD_REQUEST);
-        mav.addObject("error", "Bad Request");
-        mav.addObject("exception","ConstraintViolationException");
-        mav.addObject("message", value.toString());
-        mav.addObject("path", req.getRequestURL());
+        ModelAndView mav = getModelAndView();
+        mav.addObject(ReqAttr.ERROR_CODE.getValue(), "ConstraintViolationException");
+        mav.addObject(ReqAttr.MESSAGE.getValue(), value.toString());
+        mav.addObject(ReqAttr.PATH.getValue(), req.getRequestURL());
 
         return mav.getModelMap();
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
-    public ModelMap handleTypeMismatch(HttpServletRequest req, MethodArgumentTypeMismatchException ex)
-            throws Exception {
+    public ModelMap handleTypeMismatch(HttpServletRequest req, MethodArgumentTypeMismatchException ex) {
 
         String name = ex.getName();
         String type = ex.getRequiredType().getSimpleName();
@@ -68,14 +59,10 @@ public class UserController {
         log.error("Request: " + req.getRequestURL() + " raised " + ex);
         log.error(message);
 
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("status", "400");
-        mav.addObject("statusHTTP", HttpStatus.BAD_REQUEST);
-        mav.addObject("error", "Bad Request");
-        mav.addObject("exception", ex.getErrorCode());
-        mav.addObject("message", message);
-        mav.addObject("path", req.getRequestURL());
+        ModelAndView mav = getModelAndView();
+        mav.addObject(ReqAttr.EXCEPTION_DESCRIPTION.getValue(), ex.getErrorCode());
+        mav.addObject(ReqAttr.MESSAGE.getValue(), message);
+        mav.addObject(ReqAttr.PATH.getValue(), req.getRequestURL());
 
         mav.setViewName(message);
         Object className = mav.getModelMap().getClass();
@@ -86,26 +73,30 @@ public class UserController {
         return mav.getModelMap();
     }
 
+    private ModelAndView getModelAndView() {
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject(ReqAttr.ERROR_CODE.getValue(), "400");
+        mav.addObject(ReqAttr.HTTPS_STATUS.getValue(), HttpStatus.BAD_REQUEST);
+        mav.addObject(ReqAttr.ERROR_TYPE.getValue(), "Bad Request");
+        return mav;
+    }
+
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public ModelMap handleTypeMismatch(HttpServletRequest req, MissingServletRequestParameterException ex)
-            throws Exception {
+    public ModelMap handleTypeMismatch(HttpServletRequest req, MissingServletRequestParameterException ex) {
 
         final String exceptionPath = "org.springframework.web.bind.MissingServletRequestParameterException";
 
-        log.error("Request: " + req.getRequestURL() + " raised " + ex);
-        log.error(MISSING_PARAM_ERROR_MSG);
+        log.debug("Request: " + req.getRequestURL() + " raised " + ex);
+        log.debug(MISSING_PARAM_ERROR_MSG);
 
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("status", "400");
-        mav.addObject("statusHTTP", HttpStatus.BAD_REQUEST);
-        mav.addObject("error", "Bad Request");
-        mav.addObject("exception", exceptionPath);
-        mav.addObject("message", ex.getMessage());
-        mav.addObject("customMessage", MISSING_PARAM_ERROR_MSG);
-        mav.addObject("path", req.getRequestURL());
+        ModelAndView mav = getModelAndView();
+        mav.addObject(ReqAttr.EXCEPTION_DESCRIPTION.getValue(), exceptionPath);
+        mav.addObject(ReqAttr.MESSAGE.getValue(), ex.getMessage());
+        mav.addObject(ReqAttr.CUSTOM_MSG.getValue(), MISSING_PARAM_ERROR_MSG);
+        mav.addObject(ReqAttr.PATH.getValue(), req.getRequestURL());
 
         mav.setViewName(MISSING_PARAM_ERROR_MSG);
         Object className = mav.getModelMap().getClass();
@@ -144,11 +135,11 @@ public class UserController {
 
     @GetMapping(path = "/insertUser")
     public @ResponseBody
-    String addNewUser(@Size(max=100, message = "fullName should have max 100 characters") @RequestParam String fullName,
-                      @Size(min = 10, max=10, message = "userNip should have max 10 characters") @RequestParam String userNip,
-                      @Size(min = 11, max=11, message = "userPesel should have max 11 characters") @RequestParam String userPesel,
-                      @Size(max=100, message = "address should have max 100 characters") @RequestParam String address,
-                      @Size(max=40, message = "city should have max 40 characters") @RequestParam String city) {
+    String addNewUser(@Size(max = 100, message = "fullName should have max 100 characters") @RequestParam String fullName,
+                      @Size(min = 10, max = 10, message = "userNip should have max 10 characters") @RequestParam String userNip,
+                      @Size(min = 11, max = 11, message = "userPesel should have max 11 characters") @RequestParam String userPesel,
+                      @Size(max = 100, message = "address should have max 100 characters") @RequestParam String address,
+                      @Size(max = 40, message = "city should have max 40 characters") @RequestParam String city) {
 
         User myUser = new User();
         myUser.setUserFullName(fullName);
@@ -227,15 +218,15 @@ public class UserController {
 
 
         if (userId == null || userId < 1) {
-            log.error(" !!!!!!!!!!!!!!  exception !!!!!!!!!!!!!!!!");
-            log.error("userId: " + userId);
+            log.debug(" !!!!!!!!!!!!!!  exception !!!!!!!!!!!!!!!!");
+            log.debug("userId: " + userId);
             throw new UserDataNotFoundException();
         }
 
         User userData = employeeMapper.getAllAccountsForUserById(userId);
 
         if (userData == null) {
-            log.error(" !!!!!!!!!!!!!!  NULL  !!!!!!!!!!!!!!!!");
+            log.debug(" !!!!!!!!!!!!!!  NULL  !!!!!!!!!!!!!!!!");
             throw new UserDataNotFoundException();
         }
 
@@ -246,7 +237,7 @@ public class UserController {
 
     @GetMapping(path = "/getOneAccountAndUserData")
     public @ResponseBody
-    UserAccounts getOneAccountAndUserData(@Size(min = 26, max=26, message = "accountNbr should be 26 characters long") @RequestParam String accountNrb) {
+    UserAccounts getOneAccountAndUserData(@Size(min = 26, max = 26, message = "accountNbr should be 26 characters long") @RequestParam String accountNrb) {
 
         UserAccounts userAccount = employeeMapper.getAccountAndUserData(accountNrb);
         if (userAccount == null) {
