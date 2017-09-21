@@ -14,7 +14,6 @@
         <package name="com.mybatis3.domain"/>
     </typeAliases>
 
-
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="hello.AccountType"/>
         <typeHandler handler="com.mybatis3.typehandlers.PhoneTypeHandler"/>
@@ -28,7 +27,7 @@
                 <property name="driver" value="com.mysql.jdbc.Driver" />
                 <property name="url" value="jdbc:mysql://localhost:3306/employee?useSSL=false" />
                 <property name="username" value="root" />
-                <property name="password" value="" />
+                <property name="password" value="swmind1234" />
             </dataSource>
         </environment>
     </environments>
