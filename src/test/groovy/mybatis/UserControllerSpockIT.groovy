@@ -19,7 +19,6 @@ class UserControllerSpockIT extends Specification{
     private int port
 
     public TestRestTemplate restTemplate = new TestRestTemplate()
-
     public HttpHeaders headers = new HttpHeaders()
 
 
