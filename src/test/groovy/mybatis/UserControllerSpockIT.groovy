@@ -32,7 +32,7 @@ class UserControllerSpockIT extends Specification{
         String test2 = "MaKota"
 
         then: "persisted data is loaded"
-        (testReq+test2) == "AlaKota"
+        (testReq+test2) == "AlaMaKota"
     }
 
 
