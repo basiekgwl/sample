@@ -14,4 +14,6 @@ public interface IErrorMsg {
 
     String DATA_CONFLICT = "Data integrity violation";
 
+    String MSG_IF_NULL = " !!!!!!!!!!!!!!  NULL  !!!!!!!!!!!!!!!!";
+
 }
