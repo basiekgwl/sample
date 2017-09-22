@@ -1,6 +1,6 @@
-package hello;
+package mybatis.dao;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class User {
+public class UserEntity {
 
     private Long userId;
 
@@ -24,10 +24,10 @@ public class User {
 
     private List<UserAccounts> userAccounts;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(String userFullName, String userNip, String userPesel, String userAddress, String city) {
+    public UserEntity(String userFullName, String userNip, String userPesel, String userAddress, String city) {
         this.userFullName = userFullName;
         this.userNip = userNip;
         this.userPesel = userPesel;
@@ -35,7 +35,8 @@ public class User {
         this.city = city;
     }
 
-    public User(Long userId, String userFullName, String userNip, String userPesel, String userAddress, String city) {
+    @Builder
+    public UserEntity(Long userId, String userFullName, String userNip, String userPesel, String userAddress, String city) {
         this.userId = userId;
         this.userFullName = userFullName;
         this.userNip = userNip;

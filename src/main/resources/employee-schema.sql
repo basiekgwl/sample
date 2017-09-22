@@ -18,7 +18,7 @@ account_nrb VARCHAR(26),
 balance float,
 PRIMARY KEY ( account_id ),
 KEY `FK_USER_ID` (`user_id`),
-CONSTRAINT `FK_USER_ID` FOREIGN KEY (user_id) REFERENCES user(user_id)
+CONSTRAINT `FK_USER_ID` FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 START TRANSACTION;

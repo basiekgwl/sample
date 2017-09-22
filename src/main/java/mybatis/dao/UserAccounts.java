@@ -1,16 +1,15 @@
-package hello;
+package mybatis.dao;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.lang3.ObjectUtils;
+import hello.AccountType;
+import lombok.*;
+import mybatis.dao.UserEntity;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAccounts {
 
     private int accountId;
@@ -23,19 +22,9 @@ public class UserAccounts {
 
     private BigDecimal balance;
 
-    private User userData;
+    private UserEntity userEntity;
 
-    public UserAccounts() {
-    }
-
-    public UserAccounts(int accountId, int userId, AccountType accountType, String accountNrb, BigDecimal balance) {
-        this.accountId = accountId;
-        this.userId = userId;
-        this.accountType = accountType;
-        this.accountNrb = accountNrb;
-        this.balance = balance;
-    }
-
+    @Builder
     public UserAccounts(int userId, AccountType accountType, String accountNrb, BigDecimal balance) {
         this.userId = userId;
         this.accountType = accountType;

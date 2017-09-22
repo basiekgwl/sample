@@ -1,4 +1,4 @@
-package mybatis;
+package mybatis.services;
 
 public enum ReqAttr {
 

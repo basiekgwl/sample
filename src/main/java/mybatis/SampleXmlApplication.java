@@ -1,7 +1,7 @@
 package mybatis;
 
 import hello.Application;
-import mybatis.mapper.EmployeeMapper;
+import mybatis.mapper.EmployeeDBMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -21,14 +21,14 @@ public class SampleXmlApplication implements CommandLineRunner{
     }
 
 
-    private final EmployeeMapper employeeMapper;
+    private final EmployeeDBMapper employeeDBMapper;
 
-    public SampleXmlApplication(EmployeeMapper employeeMapper) {
-        this.employeeMapper = employeeMapper;
+    public SampleXmlApplication(EmployeeDBMapper employeeDBMapper) {
+        this.employeeDBMapper = employeeDBMapper;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Get data: " + this.employeeMapper.findById(2L));
+        log.info("Get data: " + this.employeeDBMapper.findById(2L));
     }
 }

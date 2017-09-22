@@ -1,25 +1,24 @@
 package mybatis.dao;
 
-import hello.User;
-import mybatis.MyBatisUtil;
-import mybatis.mapper.EmployeeMapper;
+import mybatis.utils.MyBatisUtil;
+import mybatis.mapper.EmployeeDBMapper;
 import org.apache.ibatis.session.SqlSession;
 
 public class UserDao {
 
-    public long save(User userData){
+    public long save(UserEntity userEntityData){
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-        EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
-        long userId = mapper.insertNewUser(userData);
+        EmployeeDBMapper mapper = session.getMapper(EmployeeDBMapper.class);
+        long userId = mapper.insertNewUser(userEntityData);
         session.commit();
         session.close();
         return userId;
     }
 
-    public void update(User userData){
+    public void update(UserEntity userEntityData){
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-        EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
-        mapper.updateUserData(userData);
+        EmployeeDBMapper mapper = session.getMapper(EmployeeDBMapper.class);
+        mapper.updateUserData(userEntityData);
         session.commit();
         session.close();
     }

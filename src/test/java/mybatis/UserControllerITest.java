@@ -54,10 +54,40 @@ public class UserControllerITest {
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }
 
+    @Test
+    public void testPositiveGetUser() throws JSONException {
+
+        String name = "'Agnieszka Zawadzka'";
+
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/user/getUserByName?fullName=" + name),
+                HttpMethod.GET, entity, String.class);
+
+        log.info("Response: " + response.getBody());
+
+        log.info("Entity: " + entity);
+
+        String expected =
+           "[\n" +
+                   "    {\n" +
+                   "        \"userId\": 5,\n" +
+                   "        \"userFullName\": \"Agnieszka Zawadzka\",\n" +
+                   "        \"userNip\": \"5531819354\",\n" +
+                   "        \"userPesel\": \"83092344333\",\n" +
+                   "        \"userAddress\": \"ul. Nowa 10, 34-350 Węgierska Górka\",\n" +
+                   "        \"city\": \"Węgierska Górka\",\n" +
+                   "        \"userAccounts\": null\n" +
+                   "    }\n" +
+                   "]";
+
+        JSONAssert.assertEquals(expected, response.getBody(), false);
+    }
+
 
     private String createURLWithPort(String uri) {
         return "http://localhost:" + port + uri;
     }
-
 
 }

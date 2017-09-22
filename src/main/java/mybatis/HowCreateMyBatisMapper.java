@@ -2,8 +2,8 @@ package mybatis;
 
 
 import hello.Application;
-import hello.User;
-import mybatis.mapper.EmployeeMapper;
+import mybatis.dao.UserEntity;
+import mybatis.mapper.EmployeeDBMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -28,8 +28,8 @@ public class HowCreateMyBatisMapper {
 
         long id = 2;
 
-        EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
-        User employee = mapper.findById(id);
+        EmployeeDBMapper mapper = session.getMapper(EmployeeDBMapper.class);
+        UserEntity employee = mapper.findById(id);
 
         log.info("RESULT: findById(*) >>>>>> ");
 
@@ -39,9 +39,9 @@ public class HowCreateMyBatisMapper {
 
         log.info(" NEXT RESULTS: findByCity(*) >>>>>> ");
 
-        List<User> myList = mapper.findByCity("Kraków");
+        List<UserEntity> myList = mapper.findByCity("Kraków");
 
-        for(User item: myList) {
+        for(UserEntity item: myList) {
             log.info(item.getUserId() + " - " + item.getUserFullName() +
                     " - " + item.getUserAddress());
         }
