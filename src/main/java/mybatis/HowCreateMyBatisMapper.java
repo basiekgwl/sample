@@ -26,10 +26,10 @@ public class HowCreateMyBatisMapper {
         SqlSessionFactory sessionFactory = builder.build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        long id = 2;
+        String nik= "23655939";
 
         EmployeeDBMapper mapper = session.getMapper(EmployeeDBMapper.class);
-        UserEntity employee = mapper.findById(id);
+        UserEntity employee = mapper.findById(nik);
 
         log.info("RESULT: findById(*) >>>>>> ");
 

@@ -1,4 +1,4 @@
-package mybatis.controller;
+package mybatis.controller.interfaces;
 
 import mybatis.services.IErrorMsg;
 import org.springframework.dao.DataAccessException;

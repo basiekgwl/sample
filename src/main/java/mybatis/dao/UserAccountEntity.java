@@ -10,11 +10,11 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAccounts {
+public class UserAccountEntity {
 
-    private int accountId;
+    private Long accountId;
 
-    private int userId;
+    private Long userId;
 
     private AccountType accountType;
 
@@ -25,7 +25,7 @@ public class UserAccounts {
     private UserEntity userEntity;
 
     @Builder
-    public UserAccounts(int userId, AccountType accountType, String accountNrb, BigDecimal balance) {
+    public UserAccountEntity(Long userId, AccountType accountType, String accountNrb, BigDecimal balance) {
         this.userId = userId;
         this.accountType = accountType;
         this.accountNrb = accountNrb;

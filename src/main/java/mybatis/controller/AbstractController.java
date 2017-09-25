@@ -1,6 +1,7 @@
 package mybatis.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import mybatis.controller.interfaces.IAbstractController;
 import mybatis.services.IErrorMsg;
 import mybatis.services.IExceptionData;
 import mybatis.services.JsonRespAttrName;

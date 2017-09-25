@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mybatis.mapper.EmployeeDBMapper" >
+<mapper namespace="mybatis.mapper.EmployeeDBMapper">
 
     <resultMap id="UserMap" type="mybatis.dao.UserEntity">
-        <id column="id" jdbcType="INTEGER" property="userId" />
-        <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
-        <result column="user_nip" jdbcType="VARCHAR" property="userNip" />
-        <result column="user_pesel" jdbcType="VARCHAR" property="userPesel" />
-        <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
-        <result column="city" jdbcType="VARCHAR" property="city" />
+        <id column="id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userFullName"/>
+        <result column="user_nip" jdbcType="VARCHAR" property="userNip"/>
+        <result column="user_pesel" jdbcType="VARCHAR" property="userPesel"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="nik" jdbcType="VARCHAR" property="nik"/>
         <!--  other columns -->
     </resultMap>
 
-    <resultMap id="AccountMap" type="mybatis.dao.UserAccounts">
-        <result column="id" jdbcType="INTEGER" property="accountId" />
-        <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <resultMap id="AccountMap" type="mybatis.dao.UserAccountEntity">
+        <result column="id" jdbcType="INTEGER" property="accountId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="account_type" property="accountType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
-        <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb" />
-        <result column="balance" jdbcType="DECIMAL" property="balance" />
+        <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb"/>
+        <result column="balance" jdbcType="DECIMAL" property="balance"/>
         <!--  other columns -->
     </resultMap>
 
 
     <!--  one to many relationship -->
     <resultMap type="mybatis.dao.UserEntity" id="UserMap2">
-        <id column="id" jdbcType="INTEGER" property="userId" />
-        <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
-        <result column="user_nip" jdbcType="VARCHAR" property="userNip" />
-        <result column="user_pesel" jdbcType="VARCHAR" property="userPesel" />
-        <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
-        <result column="city" jdbcType="VARCHAR" property="city" />
+        <id column="id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userFullName"/>
+        <result column="user_nip" jdbcType="VARCHAR" property="userNip"/>
+        <result column="user_pesel" jdbcType="VARCHAR" property="userPesel"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="nik" jdbcType="VARCHAR" property="nik"/>
 
-        <collection property="userAccounts" javaType="List" ofType="mybatis.dao.UserAccounts">
-            <result column="id" jdbcType="INTEGER" property="accountId" />
-            <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <collection property="userAccounts" javaType="List" ofType="mybatis.dao.UserAccountEntity">
+            <result column="id" jdbcType="INTEGER" property="accountId"/>
+            <result column="user_id" jdbcType="INTEGER" property="userId"/>
             <result column="account_type" property="accountType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
-            <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb" />
-            <result column="balance" jdbcType="DECIMAL" property="balance" />
+            <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb"/>
+            <result column="balance" jdbcType="DECIMAL" property="balance"/>
         </collection>
     </resultMap>
 
     <!--  one to one relationship -->
-    <resultMap type="mybatis.dao.UserAccounts" id="AccountMap2">
-        <id column="id" jdbcType="INTEGER" property="accountId" />
-        <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <resultMap type="mybatis.dao.UserAccountEntity" id="AccountMap2">
+        <id column="id" jdbcType="INTEGER" property="accountId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="account_type" property="accountType" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
-        <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb" />
-        <result column="balance" jdbcType="DECIMAL" property="balance" />
+        <result column="account_nrb" jdbcType="VARCHAR" property="accountNrb"/>
+        <result column="balance" jdbcType="DECIMAL" property="balance"/>
 
         <association property="userEntity" javaType="mybatis.dao.UserEntity" column="user_id">
-            <id column="id" jdbcType="INTEGER" property="userId" />
-            <result column="user_name" jdbcType="VARCHAR" property="userFullName" />
-            <result column="user_nip" jdbcType="VARCHAR" property="userNip" />
-            <result column="user_pesel" jdbcType="VARCHAR" property="userPesel" />
-            <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
-            <result column="city" jdbcType="VARCHAR" property="city" />
+            <id column="id" jdbcType="INTEGER" property="userId"/>
+            <result column="user_name" jdbcType="VARCHAR" property="userFullName"/>
+            <result column="user_nip" jdbcType="VARCHAR" property="userNip"/>
+            <result column="user_pesel" jdbcType="VARCHAR" property="userPesel"/>
+            <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+            <result column="city" jdbcType="VARCHAR" property="city"/>
+            <result column="nik" jdbcType="VARCHAR" property="nik"/>
         </association>
     </resultMap>
 
@@ -63,11 +66,11 @@
         SELECT user.*, user_accounts.*
         FROM user
         JOIN user_accounts ON user.id = user_accounts.user_id
-        where user.user_id = #{userId}
+        where user.nik = #{nik}
     </select>
 
     <!--  one to one relationship -->
-    <select id="getAccountAndUserData" resultType="mybatis.dao.UserAccounts" resultMap="AccountMap2">
+    <select id="getAccountAndUserData" resultType="mybatis.dao.UserAccountEntity" resultMap="AccountMap2">
         SELECT user.*, user_accounts.*
         FROM user_accounts
         JOIN user ON user.id = user_accounts.user_id
@@ -78,18 +81,23 @@
         * from USER
     </sql>
 
-    <select id="getAllAccounts" resultMap = "AccountMap" resultType="mybatis.dao.UserAccounts" >
+    <select id="getAllAccounts" resultMap="AccountMap" resultType="mybatis.dao.UserAccountEntity">
         select * from user_accounts;
     </select>
 
-    <select id="getAccountByNumber" resultMap = "AccountMap" resultType="mybatis.dao.UserAccounts" >
+    <select id="getAccountByNumber" resultMap="AccountMap" resultType="mybatis.dao.UserAccountEntity">
         select * from user_accounts where account_nrb =  #{nrb};
     </select>
 
-    <insert id="insertAccountData" parameterType="mybatis.dao.UserAccounts" keyProperty="accountId" timeout="10" useGeneratedKeys="true">
+    <insert id="insertAccountData" parameterType="mybatis.dao.UserAccountEntity" keyProperty="accountId" timeout="10"
+            useGeneratedKeys="true">
         insert into user_accounts (id, account_nrb, account_type, balance) values (
         #{userId}, #{accountNrb}, #{accountType, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{balance}
         )
     </insert>
+
+    <delete id="deleteUserWithAccounts" parameterType="Long">
+        delete from user where nik = #{nik};
+    </delete>
 
 </mapper>

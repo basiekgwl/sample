@@ -9,6 +9,7 @@ public interface IErrorMsg {
     String INVALID_PESEL_SIZE = "Parameter 'userPesel' should have max " + IFieldsSize.USER_ADDRESS_MAX_SIZE + " characters";
     String INVALID_ADDRESS_SIZE = "Parameter 'address' should have max " + IFieldsSize.USER_ADDRESS_MAX_SIZE + " characters";
     String INVALID_CITY_SIZE = "Parameter 'city' should have max " + IFieldsSize.USER_CITY_MAX_SIZE + " characters";
+    String INVALID_NIK_SIZE = "Parameter 'nik' should have max " + IFieldsSize.NIK_SIZE + " characters";
 
     String INVALID_NBR_SIZE = "Parameter 'accountNbr' should be " + IFieldsSize.ACCOUNT_NRB_SIZE + " characters long";
 

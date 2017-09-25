@@ -29,6 +29,6 @@ public class SampleXmlApplication implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Get data: " + this.employeeDBMapper.findById(2L));
+        log.info("Get data: " + this.employeeDBMapper.findById("23655939"));
     }
 }

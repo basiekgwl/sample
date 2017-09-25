@@ -22,7 +22,9 @@ public class UserEntity {
 
     private String city;
 
-    private List<UserAccounts> userAccounts;
+    private String nik;
+
+    private List<UserAccountEntity> userAccounts;
 
     public UserEntity() {
     }
@@ -36,13 +38,25 @@ public class UserEntity {
     }
 
     @Builder
-    public UserEntity(Long userId, String userFullName, String userNip, String userPesel, String userAddress, String city) {
+    public UserEntity(Long userId, String userFullName, String userNip, String userPesel, String userAddress, String city,String nik) {
         this.userId = userId;
         this.userFullName = userFullName;
         this.userNip = userNip;
         this.userPesel = userPesel;
         this.userAddress = userAddress;
         this.city = city;
+        this.nik = nik;
+    }
+
+    @Builder
+    public UserEntity(String userFullName, String userNip, String userPesel, String userAddress, String city,String nik) {
+        this.userId = userId;
+        this.userFullName = userFullName;
+        this.userNip = userNip;
+        this.userPesel = userPesel;
+        this.userAddress = userAddress;
+        this.city = city;
+        this.nik = nik;
     }
 
     @Override

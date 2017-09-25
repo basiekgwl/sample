@@ -2,6 +2,6 @@ package hello;
 
 public enum AccountType {
 
-    SAVINGS, CREDITS;
+    SAVINGS, CREDITS, DOMESTIC;
 
 }

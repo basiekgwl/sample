@@ -13,5 +13,4 @@ public interface JsonRespAttrName {
     String USER_ID = "userId";
     String USER_MSG = "userMessage";
 
-
 }

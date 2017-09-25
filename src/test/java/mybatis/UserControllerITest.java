@@ -70,17 +70,18 @@ public class UserControllerITest {
         log.info("Entity: " + entity);
 
         String expected =
-           "[\n" +
-                   "    {\n" +
-                   "        \"userId\": 5,\n" +
-                   "        \"userFullName\": \"Agnieszka Zawadzka\",\n" +
-                   "        \"userNip\": \"5531819354\",\n" +
-                   "        \"userPesel\": \"83092344333\",\n" +
-                   "        \"userAddress\": \"ul. Nowa 10, 34-350 Węgierska Górka\",\n" +
-                   "        \"city\": \"Węgierska Górka\",\n" +
-                   "        \"userAccounts\": null\n" +
-                   "    }\n" +
-                   "]";
+                "[\n" +
+                        "\n" +
+                        "    {\n" +
+                        "        \"nik\": \"24113114\",\n" +
+                        "        \"fullName\": \"Agnieszka Zawadzka\",\n" +
+                        "        \"nip\": \"4231235412\",\n" +
+                        "        \"pesel\": \"94021233333\",\n" +
+                        "        \"address\": null,\n" +
+                        "        \"accountDtoList\": null\n" +
+                        "    }\n" +
+                        "\n" +
+                        "]";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }

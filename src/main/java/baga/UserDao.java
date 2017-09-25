@@ -1,5 +1,6 @@
-package mybatis.dao;
+package baga;
 
+import mybatis.dao.UserEntity;
 import mybatis.utils.MyBatisUtil;
 import mybatis.mapper.EmployeeDBMapper;
 import org.apache.ibatis.session.SqlSession;

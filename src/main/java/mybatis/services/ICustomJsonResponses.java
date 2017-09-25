@@ -1,21 +1,20 @@
 package mybatis.services;
 
-import mybatis.dao.UserAccounts;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface ICustomJsonResponses {
 
-    static ModelMap getJsonResponseForInsert(UserAccounts accountData) {
-        if (accountData == null) {
+    static ModelMap getJsonResponseForInsert(Integer productId) {
+        if (productId == null) {
             return null;
         }
         ModelAndView mav = new ModelAndView();
         mav.addObject(JsonRespAttrName.HTTPS_STATUS, "200");
         mav.addObject(JsonRespAttrName.MESSAGE, "SUCCESS");
         mav.addObject(JsonRespAttrName.USER_MSG, IUserMsg.INSERT_USER_SUCCESS);
-        mav.addObject(JsonRespAttrName.USER_ID, accountData.getAccountId());
+        mav.addObject(JsonRespAttrName.USER_ID, productId.toString());
         return mav.getModelMap();
     }
 
