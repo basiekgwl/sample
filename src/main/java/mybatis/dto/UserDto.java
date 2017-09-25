@@ -30,4 +30,10 @@ public class UserDto implements IUserDto {
                 .build();
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+                "UserDTO[nik=%s, fullName='%s', NIP='%s', Pesel= '%s', address='%s']",
+                getNik(), getFullName(), getNip(), getPesel(), getAddress());
+    }
 }

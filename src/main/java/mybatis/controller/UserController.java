@@ -92,8 +92,8 @@ public class UserController extends AbstractController implements IUserControlle
                 .userNip(userNip)
                 .userPesel(userPesel)
                 .userAddress(address)
-                .city(city).
-                        nik(nik)
+                .city(city)
+                .nik(nik)
                 .build();
 
         employeeDBMapper.insertNewUser(myUserEntity);
@@ -108,7 +108,7 @@ public class UserController extends AbstractController implements IUserControlle
         employeeDBMapper.updateUserData(myUserEntity);
         UserDto userDto = new UserDto();
         userDto = userDto.returnUserData(myUserEntity);
-        return IUserMsg.UPDATE_USER_SUCCESS + " UserData: " + userDto;
+        return IUserMsg.UPDATE_USER_SUCCESS + " User NIK: " + userDto.getNik();
     }
 
     public List<AccountDto> getUserAccounts(String nik) {
