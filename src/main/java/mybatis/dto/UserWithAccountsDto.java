@@ -1,6 +1,7 @@
 package mybatis.dto;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import mybatis.dao.UserAccountEntity;
 import mybatis.dao.UserEntity;
 import mybatis.dto.interfaces.IUserWithAccounts;
@@ -13,7 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserWithAccountsDto implements IUserWithAccounts{
+@Slf4j
+public class UserWithAccountsDto implements IUserWithAccounts {
 
     UserDto userDto;
     List<AccountDto> accountDtoList;
@@ -34,11 +36,10 @@ public class UserWithAccountsDto implements IUserWithAccounts{
         UserWithAccountsDto newUser = new UserWithAccountsDto();
         UserDto userDto = new UserDto();
         newUser.setUserDto(userDto.returnUserData(userEntity));
-        newUser.setAccountDtoList(returnAccountsList(userEntity.getUserAccounts()));
+
+        newUser.setAccountDtoList(newUser.returnAccountsList(userEntity.getUserAccounts()));
 
         return newUser;
     }
-
-
 
 }

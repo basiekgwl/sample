@@ -8,6 +8,7 @@ import mybatis.controller.interfaces.IUserController;
 import mybatis.dao.UserAccountEntity;
 import mybatis.dao.UserEntity;
 import mybatis.dto.AccountDto;
+import mybatis.dto.AccountsWithUserDataDto;
 import mybatis.dto.UserDto;
 import mybatis.dto.UserWithAccountsDto;
 import mybatis.error.handler.OperationException;
@@ -111,6 +112,38 @@ public class UserController extends AbstractController implements IUserControlle
         return IUserMsg.UPDATE_USER_SUCCESS + " User NIK: " + userDto.getNik();
     }
 
+    public UserWithAccountsDto getUserEntityWithAllAccounts(String nik) {
+
+        log.info("NIK: " + nik);
+
+        UserEntity userEntityData = employeeDBMapper.getAllAccountsForUserById(nik);
+
+        if (userEntityData == null) {
+            log.debug(IErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
+
+        log.info("Data: " + userEntityData);
+        log.info("AccountsData: " + userEntityData.getUserAccounts());
+
+        UserWithAccountsDto userDto = new UserWithAccountsDto();
+        userDto = userDto.returnUserWithAccounts(userEntityData);
+
+        return userDto;
+    }
+
+    public AccountsWithUserDataDto getOneAccountAndUserData(String accountNrb) {
+
+        UserAccountEntity userAccountEntity = employeeDBMapper.getAccountAndUserData(accountNrb);
+        if (userAccountEntity == null) {
+
+            log.error(IErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
+        AccountsWithUserDataDto accountDto = new AccountsWithUserDataDto();
+        return accountDto.returnAccountWithUserDto(userAccountEntity);
+    }
+
     public List<AccountDto> getUserAccounts(String nik) {
 
         AccountDto accountDto = new AccountDto();
@@ -150,38 +183,6 @@ public class UserController extends AbstractController implements IUserControlle
 
         Integer nrbHashCode = accountDto.returnHashCode(accountData.getAccountNrb());
         return getJsonResponseForInsert(nrbHashCode);
-    }
-
-    public UserWithAccountsDto getUserEntityWithAllAccounts(String nik) {
-
-        log.debug("NIK: " + nik);
-
-        UserEntity userEntityData = employeeDBMapper.getAllAccountsForUserById(nik);
-
-        if (userEntityData == null) {
-            log.debug(IErrorMsg.MSG_IF_NULL);
-            throw new UserDataNotFoundException();
-        }
-
-        log.debug("Data: " + userEntityData);
-        log.debug("AccountsData: " + userEntityData.getUserAccounts());
-
-        UserWithAccountsDto userDto = new UserWithAccountsDto();
-        userDto = userDto.returnUserWithAccounts(userEntityData);
-
-        return userDto;
-    }
-
-    public AccountDto getOneAccountAndUserData(String accountNrb) {
-
-        UserAccountEntity userAccountEntity = employeeDBMapper.getAccountAndUserData(accountNrb);
-        if (userAccountEntity == null) {
-
-            log.error(IErrorMsg.MSG_IF_NULL);
-            throw new UserDataNotFoundException();
-        }
-        AccountDto accountDto = new AccountDto();
-        return accountDto.returnAccountWithUserDto(userAccountEntity);
     }
 
     @Override
