@@ -30,26 +30,24 @@ public class UserControllerITest {
     @Test
     public void testRetrieveStudentCourse() throws JSONException {
 
-        String accountNrb = "";
+        String accountNrb = "12345667";
 
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/user/getOneAccountAndUserData?" + accountNrb),
+                createURLWithPort("/user/getOneAccountAndUserData?accountNrb=" + accountNrb),
                 HttpMethod.GET, entity, String.class);
 
         log.info("Response: " + response.getBody());
 
-        log.info("Entity: " + entity);
-
         String expected =
-                "{\"status\":\"400\"," +
-                        "\"statusHTTP\":\"BAD_REQUEST\"," +
-                        "\"error\":\"Bad Request\"," +
-                        "\"exception\":\"org.springframework.web.bind.MissingServletRequestParameterException\"," +
-                        "\"message\":\"Required String parameter 'accountNrb' is not present\"," +
-                        "\"customMessage\":\"[Missing Parameter]\"," +
-                        "\"path\":\"http://localhost:" + port + "/user/getOneAccountAndUserData\"}";
+                "{\n" +
+                        "    \"status\": \"ConstraintViolationException\",\n" +
+                        "    \"statusHTTP\": \"BAD_REQUEST\",\n" +
+                        "    \"error\": \"Bad Request\",\n" +
+                        "    \"message\": \"[ConstraintViolationImpl{interpolatedMessage='Parameter 'accountNbr' should be 26 characters long', propertyPath=getOneAccountAndUserData.arg0, rootBeanClass=class mybatis.controller.UserController, messageTemplate='Parameter 'accountNbr' should be 26 characters long'}]\",\n" +
+                        "    \"path\": \"http://localhost:" + port + "/user/getOneAccountAndUserData\"\n" +
+                        "}";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }
@@ -71,16 +69,13 @@ public class UserControllerITest {
 
         String expected =
                 "[\n" +
-                        "\n" +
                         "    {\n" +
                         "        \"nik\": \"24113114\",\n" +
                         "        \"fullName\": \"Agnieszka Zawadzka\",\n" +
                         "        \"nip\": \"4231235412\",\n" +
                         "        \"pesel\": \"94021233333\",\n" +
-                        "        \"address\": null,\n" +
-                        "        \"accountDtoList\": null\n" +
+                        "        \"address\": \"ul. Nowa 20, 33-230 Katowice\"\n" +
                         "    }\n" +
-                        "\n" +
                         "]";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);

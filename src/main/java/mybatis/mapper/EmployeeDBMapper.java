@@ -61,22 +61,6 @@ public interface EmployeeDBMapper {
     long insertNewAccount(UserAccountEntity account);
 
 
-    // it doesn't work so far :/ strange ???
-//    @Select("SELECT user.* FROM user where user.nik = #{nik}")
-//    @Results(value = {
-//            @Result(property = "nik", column = "nik"),
-//            @Result(property = "userFullName", column = "user_name"),
-//            @Result(property = "userNip", column = "user_nip"),
-//            @Result(property = "userAddress", column = "user_address"),
-//            @Result(property = "userAccounts", javaType = List.class, column = "user_id", many = @Many(select = "getUserAccounts"))
-//    })
-//    UserEntity getMyAllUsers(Long userId);
-//
-//    @ResultMap("AccountMap")
-//    @Select("SELECT usa.* FROM user_accounts as usa WHERE usa.nik = #{userId}")
-//    List<UserAccountEntity> getUserAccounts(Long userId);
-
-
     // one to many - xml
     UserEntity getAllAccountsForUserById(@Param("nik") String nik);
 

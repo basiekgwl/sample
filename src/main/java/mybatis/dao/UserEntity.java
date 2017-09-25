@@ -50,7 +50,6 @@ public class UserEntity {
 
     @Builder
     public UserEntity(String userFullName, String userNip, String userPesel, String userAddress, String city,String nik) {
-        this.userId = userId;
         this.userFullName = userFullName;
         this.userNip = userNip;
         this.userPesel = userPesel;

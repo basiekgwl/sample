@@ -1,6 +1,5 @@
 package mybatis.controller;
 
-import baga.UserDao;
 import hello.AccountType;
 import lombok.extern.slf4j.Slf4j;
 import mybatis.controller.interfaces.IAccountController;
@@ -8,7 +7,7 @@ import mybatis.controller.interfaces.IUserController;
 import mybatis.dao.UserAccountEntity;
 import mybatis.dao.UserEntity;
 import mybatis.dto.AccountDto;
-import mybatis.dto.AccountsWithUserDataDto;
+import mybatis.dto.AccountsWithUserDto;
 import mybatis.dto.UserDto;
 import mybatis.dto.UserWithAccountsDto;
 import mybatis.error.handler.OperationException;
@@ -132,15 +131,17 @@ public class UserController extends AbstractController implements IUserControlle
         return userDto;
     }
 
-    public AccountsWithUserDataDto getOneAccountAndUserData(String accountNrb) {
+    public AccountsWithUserDto getOneAccountAndUserData(String accountNrb) {
 
         UserAccountEntity userAccountEntity = employeeDBMapper.getAccountAndUserData(accountNrb);
+
+        log.info("User entity:  " + userAccountEntity);
         if (userAccountEntity == null) {
 
             log.error(IErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
-        AccountsWithUserDataDto accountDto = new AccountsWithUserDataDto();
+        AccountsWithUserDto accountDto = new AccountsWithUserDto();
         return accountDto.returnAccountWithUserDto(userAccountEntity);
     }
 

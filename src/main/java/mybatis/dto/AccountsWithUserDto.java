@@ -8,15 +8,15 @@ import mybatis.dto.interfaces.IAccountDto;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountsWithUserDataDto extends AccountDto implements IAccountDto {
+public class AccountsWithUserDto extends AccountDto implements IAccountDto {
 
     private UserDto userDto;
 
-    public AccountsWithUserDataDto returnAccountWithUserDto(UserAccountEntity userAccountEntity) {
+    public AccountsWithUserDto returnAccountWithUserDto(UserAccountEntity userAccountEntity) {
 
         UserDto myNewUserDto = new UserDto();  //?????
 
-        AccountsWithUserDataDto userDataDto = new AccountsWithUserDataDto();
+        AccountsWithUserDto userDataDto = new AccountsWithUserDto();
 
         userDataDto.setNrb(userAccountEntity.getAccountNrb());
         userDataDto.setAccountType(userAccountEntity.getAccountType());

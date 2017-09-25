@@ -1,7 +1,6 @@
 package mybatis.controller.interfaces;
 
-import mybatis.dto.AccountDto;
-import mybatis.dto.AccountsWithUserDataDto;
+import mybatis.dto.AccountsWithUserDto;
 import mybatis.dto.UserDto;
 import mybatis.services.IErrorMsg;
 import mybatis.services.IFieldsSize;
@@ -28,7 +27,7 @@ public interface IUserController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getOneAccountAndUserData")
     @ResponseBody
-    AccountsWithUserDataDto getOneAccountAndUserData(@Size(min = IFieldsSize.ACCOUNT_NRB_SIZE, max = IFieldsSize.ACCOUNT_NRB_SIZE, message = IErrorMsg.INVALID_NBR_SIZE)
+    AccountsWithUserDto getOneAccountAndUserData(@Size(min = IFieldsSize.ACCOUNT_NRB_SIZE, max = IFieldsSize.ACCOUNT_NRB_SIZE, message = IErrorMsg.INVALID_NBR_SIZE)
                                                 @RequestParam String accountNrb);
 
 
