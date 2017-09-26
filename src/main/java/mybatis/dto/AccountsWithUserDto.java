@@ -1,7 +1,9 @@
 package mybatis.dto;
 
-import lombok.*;
-import mybatis.dao.UserAccountEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import mybatis.dto.interfaces.IAccountDto;
 
 @Getter
@@ -11,19 +13,5 @@ import mybatis.dto.interfaces.IAccountDto;
 public class AccountsWithUserDto extends AccountDto implements IAccountDto {
 
     private UserDto userDto;
-
-    public AccountsWithUserDto returnAccountWithUserDto(UserAccountEntity userAccountEntity) {
-
-        UserDto myNewUserDto = new UserDto();  //?????
-
-        AccountsWithUserDto userDataDto = new AccountsWithUserDto();
-
-        userDataDto.setNrb(userAccountEntity.getAccountNrb());
-        userDataDto.setAccountType(userAccountEntity.getAccountType());
-        userDataDto.setBalance(userAccountEntity.getBalance());
-        userDataDto.setUserDto(myNewUserDto.returnUserData(userAccountEntity.getUserEntity()));
-
-        return userDataDto;
-    }
 
 }

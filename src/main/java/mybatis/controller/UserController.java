@@ -10,6 +10,8 @@ import mybatis.dto.AccountDto;
 import mybatis.dto.AccountsWithUserDto;
 import mybatis.dto.UserDto;
 import mybatis.dto.UserWithAccountsDto;
+import mybatis.dto.mappers.AccountDtoMapper;
+import mybatis.dto.mappers.UserDtoMapper;
 import mybatis.error.handler.OperationException;
 import mybatis.error.handler.UserDataNotFoundException;
 import mybatis.mapper.EmployeeDBMapper;
@@ -63,9 +65,7 @@ public class UserController extends AbstractController implements IUserControlle
     //DTO
     public UserDto getUserByNik(String nik) {
         UserEntity user = employeeDBMapper.findById(nik);
-
-        UserDto userDto = new UserDto();
-        userDto = userDto.returnUserData(user);
+        UserDto userDto = UserDtoMapper.mapUserData(user);
 
         log.debug("Get data: " + userDto);
         return userDto;
@@ -75,10 +75,9 @@ public class UserController extends AbstractController implements IUserControlle
 
         List<UserDto> userListDto = new ArrayList<>();
         List<UserEntity> results = employeeDBMapper.findByUserFullName(fullName);
-        for (UserEntity item : results) {
-            UserDto userDto = new UserDto();
-            log.debug("BEFORE - EntityData: UserData: " + item);
-            userDto = userDto.returnUserData(item);
+        for (UserEntity userEntity : results) {
+            UserDto userDto = UserDtoMapper.mapUserData(userEntity);
+            log.debug("BEFORE - EntityData: UserData: " + userEntity);
             log.debug("AFTER: DTO Data: ");
             userListDto.add(userDto);
         }
@@ -97,8 +96,8 @@ public class UserController extends AbstractController implements IUserControlle
                 .build();
 
         employeeDBMapper.insertNewUser(myUserEntity);
-        UserDto userDto = new UserDto();
-        userDto = userDto.returnUserData(myUserEntity);
+
+        UserDto userDto = UserDtoMapper.mapUserData(myUserEntity);
         return IUserMsg.INSERT_USER_SUCCESS + "NIK: " + userDto.getNik();
     }
 
@@ -106,8 +105,8 @@ public class UserController extends AbstractController implements IUserControlle
 
         UserEntity myUserEntity = new UserEntity(fullName, userNip, userPesel, address, city, nik);
         employeeDBMapper.updateUserData(myUserEntity);
-        UserDto userDto = new UserDto();
-        userDto = userDto.returnUserData(myUserEntity);
+
+        UserDto userDto = UserDtoMapper.mapUserData(myUserEntity);
         return IUserMsg.UPDATE_USER_SUCCESS + " User NIK: " + userDto.getNik();
     }
 
@@ -141,8 +140,8 @@ public class UserController extends AbstractController implements IUserControlle
             log.error(IErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
-        AccountsWithUserDto accountDto = new AccountsWithUserDto();
-        return accountDto.returnAccountWithUserDto(userAccountEntity);
+
+        return AccountDtoMapper.mapAccountWithUserDto(userAccountEntity);
     }
 
     public List<AccountDto> getUserAccounts(String nik) {

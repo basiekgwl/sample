@@ -8,7 +8,6 @@ public interface IAccountDto {
 
     AccountDto returnAccountDto(UserAccountEntity userAccountEntity);
 
-    AccountsWithUserDto returnAccountWithUserDto(UserAccountEntity userAccountEntity);
 
     Integer returnHashCode(String nrb);
 }

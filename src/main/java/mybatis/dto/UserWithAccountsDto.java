@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mybatis.dao.UserAccountEntity;
 import mybatis.dao.UserEntity;
 import mybatis.dto.interfaces.IUserWithAccounts;
+import mybatis.dto.mappers.UserDtoMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,8 @@ public class UserWithAccountsDto implements IUserWithAccounts {
 
     public UserWithAccountsDto returnUserWithAccounts(UserEntity userEntity) {
         UserWithAccountsDto newUser = new UserWithAccountsDto();
-        UserDto userDto = new UserDto();
-        newUser.setUserDto(userDto.returnUserData(userEntity));
-
+        newUser.setUserDto(UserDtoMapper.mapUserData(userEntity));
         newUser.setAccountDtoList(newUser.returnAccountsList(userEntity.getUserAccounts()));
-
         return newUser;
     }
 

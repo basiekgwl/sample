@@ -19,17 +19,6 @@ public class UserDto implements IUserDto {
     private String address;
 
 
-    public UserDto returnUserData(UserEntity userEntity) {
-
-        return UserDto.builder()
-                .fullName(userEntity.getUserFullName())
-                .nip(userEntity.getUserNip())
-                .pesel(userEntity.getUserPesel())
-                .address(userEntity.getUserAddress())
-                .nik(userEntity.getNik())
-                .build();
-    }
-
     @Override
     public String toString() {
         return String.format(
