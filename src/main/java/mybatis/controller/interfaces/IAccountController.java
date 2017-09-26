@@ -15,13 +15,13 @@ import java.util.List;
 @RestController
 @Validated // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
-public interface IAccountController extends IAbstractController {
+public interface IAccountController {
 
 
     //GET - SELECT
     @RequestMapping(method = RequestMethod.GET, path = "/getAllAccounts")
     @ResponseBody
-    List<UserAccountEntity> getAllAccounts();
+    List<AccountDto> getAllAccounts();
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserAccounts")
@@ -31,7 +31,8 @@ public interface IAccountController extends IAbstractController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAccountByNrb")
     @ResponseBody
-    UserAccountEntity getAccountData(@RequestParam @NotNull String nrb);
+    AccountDto getAccountData(@RequestParam @NotNull String nrb);
+
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAccountsForUser")
     @ResponseBody

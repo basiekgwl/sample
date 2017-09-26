@@ -18,10 +18,10 @@ public interface UserDtoMapper {
                 .build();
     }
 
-    static UserWithAccountsDto returnUserWithAccounts(UserEntity userEntity) {
+    static UserWithAccountsDto mapUserWithAccounts(UserEntity userEntity) {
         UserWithAccountsDto newUser = new UserWithAccountsDto();
         newUser.setUserDto(UserDtoMapper.mapUserData(userEntity));
-        newUser.setAccountDtoList(AccountDtoMapper.returnAccountsList(userEntity.getUserAccounts()));
+        newUser.setAccountDtoList(AccountDtoMapper.mapAccountsList(userEntity.getUserAccounts()));
         return newUser;
     }
 }

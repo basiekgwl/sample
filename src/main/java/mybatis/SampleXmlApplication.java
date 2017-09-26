@@ -11,5 +11,4 @@ public class SampleXmlApplication {
     public static void main(String[] args) {
         SpringApplication.run(SampleXmlApplication.class, args);
     }
-
 }

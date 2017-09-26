@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public interface AccountDtoMapper {
 
-
     static AccountDto mapAccountDto(UserAccountEntity userAccountEntity) {
 
         return AccountDto.builder()
@@ -33,10 +32,10 @@ public interface AccountDtoMapper {
     }
 
 
-    static List<AccountDto> returnAccountsList(List<UserAccountEntity> userAccountEntities) {
+    static List<AccountDto> mapAccountsList(List<UserAccountEntity> userAccountEntities) {
         if(userAccountEntities == null){
             return new ArrayList<>();
         }
-        return userAccountEntities.stream().map(AccountDtoMapper::mapAccountWithUserDto).collect(Collectors.toList());
+        return userAccountEntities.stream().map(AccountDtoMapper::mapAccountDto).collect(Collectors.toList());
     }
 }

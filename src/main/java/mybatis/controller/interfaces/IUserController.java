@@ -18,18 +18,18 @@ public interface IUserController extends IAbstractController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByNik")
     @ResponseBody
-    UserDto getUserByNik(@RequestParam String nik);
+    UserDto getUserByNik(@NotNull @RequestParam String nik);
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByName")
     @ResponseBody
-    List<UserDto> getUserListByName(@Size(min = 1) @RequestParam @NotNull String fullName);
+    List<UserDto> getUserListByName(@Size(min = 1) @NotNull @RequestParam String fullName);
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getOneAccountAndUserData")
     @ResponseBody
     AccountsWithUserDto getOneAccountAndUserData(@Size(min = FieldsSize.ACCOUNT_NRB_SIZE, max = FieldsSize.ACCOUNT_NRB_SIZE, message = ErrorMsg.INVALID_NBR_SIZE)
-                                                 @RequestParam String accountNrb);
+                                                 @NotNull @RequestParam String accountNrb);
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/insertUser")
@@ -53,6 +53,6 @@ public interface IUserController extends IAbstractController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/deleteUserWithAccounts")
     @ResponseBody
-    String deleteUserWithAccounts(@RequestParam String nik);
+    String deleteUserWithAccounts(@RequestParam @NotNull String nik);
 
 }
