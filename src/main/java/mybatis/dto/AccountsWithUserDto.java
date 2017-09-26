@@ -1,13 +1,12 @@
 package mybatis.dto;
 
 import lombok.*;
-import mybatis.dto.interfaces.IAccountDto;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountsWithUserDto extends AccountDto implements IAccountDto {
+public class AccountsWithUserDto extends AccountDto {
 
     private UserDto userDto;
 

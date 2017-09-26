@@ -1,7 +1,6 @@
 package mybatis.controller.interfaces;
 
 import hello.AccountType;
-import mybatis.dao.UserAccountEntity;
 import mybatis.dto.AccountDto;
 import mybatis.dto.UserWithAccountsDto;
 import org.springframework.ui.ModelMap;

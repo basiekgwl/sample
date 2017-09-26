@@ -2,14 +2,13 @@ package mybatis.dto;
 
 
 import lombok.*;
-import mybatis.dto.interfaces.IUserDto;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDto implements IUserDto {
+public class UserDto {
 
     private String nik;
     private String fullName;

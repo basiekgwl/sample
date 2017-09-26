@@ -26,11 +26,10 @@ public interface AccountDtoMapper {
         userDataDto.setNrb(userAccountEntity.getAccountNrb());
         userDataDto.setAccountType(userAccountEntity.getAccountType());
         userDataDto.setBalance(userAccountEntity.getBalance());
-        userDataDto.setUserDto(UserDtoMapper.mapUserData(userAccountEntity.getUserEntity()));
+        userDataDto.setUserDto(UserDtoMapper.mapUserEntityToDto(userAccountEntity.getUserEntity()));
 
         return userDataDto;
     }
-
 
     static List<AccountDto> mapAccountsList(List<UserAccountEntity> userAccountEntities) {
         if(userAccountEntities == null){

@@ -6,8 +6,7 @@ import mybatis.dto.UserWithAccountsDto;
 
 public interface UserDtoMapper {
 
-
-    static UserDto mapUserData(UserEntity userEntity) {
+    static UserDto mapUserEntityToDto(UserEntity userEntity) {
 
         return UserDto.builder()
                 .fullName(userEntity.getUserFullName())
@@ -20,7 +19,7 @@ public interface UserDtoMapper {
 
     static UserWithAccountsDto mapUserWithAccounts(UserEntity userEntity) {
         UserWithAccountsDto newUser = new UserWithAccountsDto();
-        newUser.setUserDto(UserDtoMapper.mapUserData(userEntity));
+        newUser.setUserDto(UserDtoMapper.mapUserEntityToDto(userEntity));
         newUser.setAccountDtoList(AccountDtoMapper.mapAccountsList(userEntity.getUserAccounts()));
         return newUser;
     }
