@@ -12,7 +12,8 @@ import mybatis.dto.mappers.UserDtoMapper;
 import mybatis.error.handler.OperationException;
 import mybatis.error.handler.UserDataNotFoundException;
 import mybatis.mapper.EmployeeDBMapper;
-import mybatis.services.ErrorMsg;
+import com.viscomp.services.ErrorMsg;
+import mybatis.services.CommonErrorMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
@@ -62,7 +63,7 @@ public class AccountController extends AbstractController implements IAccountCon
         UserEntity userEntityData = employeeDBMapper.getAllAccountsForUserById(nik);
 
         if (userEntityData == null) {
-            log.debug(ErrorMsg.MSG_IF_NULL);
+            log.debug(CommonErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
 

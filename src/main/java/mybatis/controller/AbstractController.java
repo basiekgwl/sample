@@ -2,7 +2,7 @@ package mybatis.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import mybatis.controller.interfaces.IAbstractController;
-import mybatis.services.ErrorMsg;
+import com.viscomp.services.ErrorMsg;
 import mybatis.services.ExceptionData;
 import mybatis.services.JsonRespAttrName;
 import org.springframework.ui.ModelMap;

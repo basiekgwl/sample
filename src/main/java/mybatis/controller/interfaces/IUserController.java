@@ -2,8 +2,8 @@ package mybatis.controller.interfaces;
 
 import mybatis.dto.AccountsWithUserDto;
 import mybatis.dto.UserDto;
-import mybatis.services.ErrorMsg;
-import mybatis.services.FieldsSize;
+import com.viscomp.services.ErrorMsg;
+import com.viscomp.services.FieldsSize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

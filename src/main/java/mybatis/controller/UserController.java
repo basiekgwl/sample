@@ -10,7 +10,8 @@ import mybatis.dto.mappers.AccountDtoMapper;
 import mybatis.dto.mappers.UserDtoMapper;
 import mybatis.error.handler.UserDataNotFoundException;
 import mybatis.mapper.EmployeeDBMapper;
-import mybatis.services.ErrorMsg;
+import com.viscomp.services.ErrorMsg;
+import mybatis.services.CommonErrorMsg;
 import mybatis.services.UserMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -96,7 +97,7 @@ public class UserController extends AbstractController implements IUserControlle
         log.info("User entity:  " + userAccountEntity);
         if (userAccountEntity == null) {
 
-            log.error(ErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
 

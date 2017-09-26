@@ -1,4 +1,4 @@
-package mybatis.services;
+package com.viscomp.services;
 
 public final class ErrorMsg {
 
@@ -17,9 +17,5 @@ public final class ErrorMsg {
     public static final String INVALID_NIK_SIZE = "Parameter 'nik' should have max " + FieldsSize.NIK_SIZE + CHAR;
 
     public static final String INVALID_NBR_SIZE = "Parameter 'accountNbr' should be " + FieldsSize.ACCOUNT_NRB_SIZE + CHAR + " long";
-
-    public static final String DATA_CONFLICT = "Data integrity violation";
-
-    public static final String MSG_IF_NULL = " !!!!!!!!!!!!!!  NULL  !!!!!!!!!!!!!!!!";
 
 }

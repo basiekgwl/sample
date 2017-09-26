@@ -1,4 +1,4 @@
-package mybatis.services;
+package com.viscomp.services;
 
 public final class FieldsSize {
 
