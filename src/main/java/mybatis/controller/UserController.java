@@ -124,10 +124,7 @@ public class UserController extends AbstractController implements IUserControlle
         log.info("Data: " + userEntityData);
         log.info("AccountsData: " + userEntityData.getUserAccounts());
 
-        UserWithAccountsDto userDto = new UserWithAccountsDto();
-        userDto = userDto.returnUserWithAccounts(userEntityData);
-
-        return userDto;
+        return UserDtoMapper.returnUserWithAccounts(userEntityData);
     }
 
     public AccountsWithUserDto getOneAccountAndUserData(String accountNrb) {
@@ -146,12 +143,11 @@ public class UserController extends AbstractController implements IUserControlle
 
     public List<AccountDto> getUserAccounts(String nik) {
 
-        AccountDto accountDto = new AccountDto();
         List<AccountDto> listAccount = new ArrayList<>();
         List<UserAccountEntity> userAccountEntities = employeeDBMapper.findAccountsForNik(nik);
 
-        userAccountEntities.forEach(item ->
-                listAccount.add(accountDto.returnAccountDto(item)));
+        userAccountEntities.forEach(userAccountEntity ->
+                listAccount.add(AccountDtoMapper.mapAccountDto(userAccountEntity)));
 
         return listAccount;
     }
@@ -166,9 +162,8 @@ public class UserController extends AbstractController implements IUserControlle
                 .build();
 
         employeeDBMapper.insertAccountData(myAccountEntity);
-        AccountDto accountDto = new AccountDto();
-        accountDto = accountDto.returnAccountDto(myAccountEntity);
-        return accountDto;
+
+        return AccountDtoMapper.mapAccountDto(myAccountEntity);
     }
 
     public ModelMap insertNrb(Long userId, AccountType type, String nrb, BigDecimal balance) {
@@ -179,9 +174,8 @@ public class UserController extends AbstractController implements IUserControlle
             throw new OperationException();
         }
 
-        AccountDto accountDto = new AccountDto();
-
-        Integer nrbHashCode = accountDto.returnHashCode(accountData.getAccountNrb());
+        AccountDto accountDto = AccountDtoMapper.mapAccountDto(accountData);
+        Integer nrbHashCode = accountDto.getNrb().hashCode();
         return getJsonResponseForInsert(nrbHashCode);
     }
 

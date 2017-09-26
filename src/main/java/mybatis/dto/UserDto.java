@@ -2,7 +2,6 @@ package mybatis.dto;
 
 
 import lombok.*;
-import mybatis.dao.UserEntity;
 import mybatis.dto.interfaces.IUserDto;
 
 @Getter

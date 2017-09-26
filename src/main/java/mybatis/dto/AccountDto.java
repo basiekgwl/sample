@@ -2,7 +2,6 @@ package mybatis.dto;
 
 import hello.AccountType;
 import lombok.*;
-import mybatis.dao.UserAccountEntity;
 
 import java.math.BigDecimal;
 
@@ -17,16 +16,4 @@ public class AccountDto {
     private AccountType accountType;
     private BigDecimal balance;
 
-    public AccountDto returnAccountDto(UserAccountEntity userAccountEntity) {
-
-        return AccountDto.builder()
-                .nrb(userAccountEntity.getAccountNrb())
-                .accountType(userAccountEntity.getAccountType())
-                .balance(userAccountEntity.getBalance())
-                .build();
-    }
-
-    public Integer returnHashCode(String nrb) {
-        return nrb.hashCode();
-    }
 }
