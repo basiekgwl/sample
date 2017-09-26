@@ -11,9 +11,6 @@ import java.util.List;
 @Mapper
 public interface EmployeeDBMapper {
 
-//    @Results({
-//            @Result(property = "userId", column = "id")
-//    })
 
     @ResultMap("UserMap2")
     @Select("SELECT * FROM user WHERE nik = ${nik}")

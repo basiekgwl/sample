@@ -23,10 +23,13 @@ public class Employee implements IEmployee {
     private Person person;
     private static int otherId = 1;
 
+
     public Employee(String aName, BigDecimal aSalary, int year, int month, int day) {
         name = aName;
         salary = aSalary;
         hireDay = returnDateAsString(year, month, day);
+        id = otherId;
+        otherId++;
     }
 
     public Employee(Person person, BigDecimal aSalary, int year, int month, int day) {
@@ -81,8 +84,7 @@ public class Employee implements IEmployee {
 
     @Override
     public BigDecimal tripleSalary() {
-        BigDecimal tripleSalary = salary.multiply(BigDecimal.valueOf(3));
-        return tripleSalary;
+        return salary.multiply(BigDecimal.valueOf(3));
     }
 
     @Override
@@ -91,25 +93,18 @@ public class Employee implements IEmployee {
         String str1 = "Both values are equal ";
         String str2 = "First Value is greater ";
         String str3 = "Second value is greater";
-        String errorMsg = "Invalid result from method compareTo";
+
 
         int result = this.salary.compareTo(otherEmployee.getSalary());
 
         if (result == 0) {
             log.info(str1);
-        } else if (result == 1) {
+        } else if (result > 0) {
             log.info(str2);
-        } else if (result == -1) {
-            log.info(str3);
         } else {
-            log.info(errorMsg);
+            log.info(str3);
         }
         return result;
     }
 
-    //blok inicjujący obiektu
-    {
-        id = otherId;
-        otherId++;
-    }
 }

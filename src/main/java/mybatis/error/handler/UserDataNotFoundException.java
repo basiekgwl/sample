@@ -12,16 +12,4 @@ public class UserDataNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 3935230281455340039L;
 
-    String errorMessage;
-
-    String errorCode;
-
-    public UserDataNotFoundException(String errorMessage, String errorCode) {
-        super();
-        this.errorMessage = errorMessage;
-        this.errorCode = errorCode;
-    }
-
-    public UserDataNotFoundException() {
-    }
 }

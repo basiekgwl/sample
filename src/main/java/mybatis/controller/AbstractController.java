@@ -7,7 +7,6 @@ import mybatis.services.IExceptionData;
 import mybatis.services.JsonRespAttrName;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +18,6 @@ import java.util.Set;
 import static mybatis.services.ICustomJsonResponses.getModelAndView;
 
 @Slf4j
-@ControllerAdvice
 abstract class AbstractController implements IAbstractController {
 
     public ModelMap handleBadRequests(HttpServletRequest req, ConstraintViolationException ex) {

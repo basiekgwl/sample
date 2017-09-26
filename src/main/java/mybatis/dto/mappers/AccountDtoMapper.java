@@ -4,6 +4,7 @@ import mybatis.dao.UserAccountEntity;
 import mybatis.dto.AccountDto;
 import mybatis.dto.AccountsWithUserDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public interface AccountDtoMapper {
 
     static List<AccountDto> returnAccountsList(List<UserAccountEntity> userAccountEntities) {
         if(userAccountEntities == null){
-            return null;
+            return new ArrayList<>();
         }
         return userAccountEntities.stream().map(AccountDtoMapper::mapAccountWithUserDto).collect(Collectors.toList());
     }

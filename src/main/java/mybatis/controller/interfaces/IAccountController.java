@@ -2,9 +2,7 @@ package mybatis.controller.interfaces;
 
 import hello.AccountType;
 import mybatis.dao.UserAccountEntity;
-import mybatis.dao.UserEntity;
 import mybatis.dto.AccountDto;
-import mybatis.dto.UserDto;
 import mybatis.dto.UserWithAccountsDto;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +15,7 @@ import java.util.List;
 @RestController
 @Validated // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
-public interface IAccountController {
+public interface IAccountController extends IAbstractController {
 
 
     //GET - SELECT

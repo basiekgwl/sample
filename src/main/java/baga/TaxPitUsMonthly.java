@@ -35,21 +35,6 @@ public class TaxPitUsMonthly extends AbstractZusPremium implements IEmployeeAndT
         return BigDecimal.valueOf(getHealthBaseInsurance() * 0.09).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
-    @Override
-    public double getHealthBaseInsurance() {
-        return super.getHealthBaseInsurance();
-    }
-
-    @Override
-    public double getSocialInsurance() {
-        return super.getSocialInsurance();
-    }
-
-    @Override
-    public double getLabourFund() {
-        return super.getLabourFund();
-    }
-
     private BigDecimal returnTaxInMonth(double salary, double spending) {
         log.debug("Salary Brutto: " + BigDecimal.valueOf(salary).setScale(2, BigDecimal.ROUND_HALF_UP) + " PLN");
         double taxAsDouble = TAX_VALUE / 100;

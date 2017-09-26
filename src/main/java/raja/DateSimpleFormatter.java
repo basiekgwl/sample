@@ -10,7 +10,7 @@ public class DateSimpleFormatter implements ConstraintValidator<DateCustomFormat
 
     @Override
     public void initialize(DateCustomFormatter constraintAnnotation) {
-
+        //Not supported
     }
 
     @Override

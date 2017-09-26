@@ -7,13 +7,14 @@ import mybatis.services.IFieldsSize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
 @Validated // This means that this class is a Controller
 @RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
-public interface IUserController {
+public interface IUserController extends IAbstractController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByNik")
     @ResponseBody
@@ -22,13 +23,13 @@ public interface IUserController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByName")
     @ResponseBody
-    List<UserDto> getUserListByName(@RequestParam String fullName);
+    List<UserDto> getUserListByName(@Size(min = 1) @RequestParam @NotNull String fullName);
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getOneAccountAndUserData")
     @ResponseBody
     AccountsWithUserDto getOneAccountAndUserData(@Size(min = IFieldsSize.ACCOUNT_NRB_SIZE, max = IFieldsSize.ACCOUNT_NRB_SIZE, message = IErrorMsg.INVALID_NBR_SIZE)
-                                                @RequestParam String accountNrb);
+                                                 @RequestParam String accountNrb);
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/insertUser")

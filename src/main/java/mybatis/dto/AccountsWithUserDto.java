@@ -1,9 +1,6 @@
 package mybatis.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import mybatis.dto.interfaces.IAccountDto;
 
 @Getter

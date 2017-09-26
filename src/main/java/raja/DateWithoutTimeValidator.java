@@ -16,6 +16,7 @@ public class DateWithoutTimeValidator implements ConstraintValidator<DateWithout
 
     @Override
     public void initialize(DateWithoutTime constraintAnnotation) {
+        //comment
     }
 
     @Override

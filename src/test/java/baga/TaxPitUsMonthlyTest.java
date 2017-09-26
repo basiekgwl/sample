@@ -58,9 +58,5 @@ public class TaxPitUsMonthlyTest extends TestCase {
 
     }
 
-    @Test
-    public void testCompareToMethod() {
 
-
-    }
 }
