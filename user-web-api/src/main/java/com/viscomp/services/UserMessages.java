@@ -1,6 +1,5 @@
 package com.viscomp.services;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
 
 public final class UserMessages {
 
@@ -10,6 +9,4 @@ public final class UserMessages {
 
     public static final String NEW_DATA="Some test data";
 
-
-    public static final String TTTTT = ErrorMsg.ACCESSING_XSLT_TARGET_ERR;
 }

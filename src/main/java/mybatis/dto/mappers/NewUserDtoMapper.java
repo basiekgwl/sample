@@ -2,7 +2,6 @@ package mybatis.dto.mappers;
 
 import mybatis.dao.UserAccountEntity;
 import mybatis.dao.UserEntity;
-import mybatis.dto.AccountDto;
 import webapi.mybatis.dto.NewAccountDto;
 import webapi.mybatis.dto.NewUserDto;
 import webapi.mybatis.dto.NewUserWithAccountsDto;

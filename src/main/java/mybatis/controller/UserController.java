@@ -10,7 +10,6 @@ import mybatis.dto.mappers.AccountDtoMapper;
 import mybatis.dto.mappers.UserDtoMapper;
 import mybatis.error.handler.UserDataNotFoundException;
 import mybatis.mapper.EmployeeDBMapper;
-import com.viscomp.services.ErrorMsg;
 import mybatis.services.CommonErrorMsg;
 import mybatis.services.UserMsg;
 import org.springframework.beans.factory.annotation.Autowired;

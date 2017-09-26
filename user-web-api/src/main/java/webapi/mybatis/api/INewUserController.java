@@ -1,10 +1,11 @@
 package webapi.mybatis.api;
 
-import com.sun.istack.internal.NotNull;
 import webapi.mybatis.dto.NewUserDto;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import webapi.mybatis.dto.NewUserWithAccountsDto;
+
+import javax.validation.constraints.NotNull;
 
 @RestController
 @Validated // This means that this class is a Controller
