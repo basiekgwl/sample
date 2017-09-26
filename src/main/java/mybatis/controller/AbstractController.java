@@ -2,8 +2,8 @@ package mybatis.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import mybatis.controller.interfaces.IAbstractController;
-import mybatis.services.IErrorMsg;
-import mybatis.services.IExceptionData;
+import mybatis.services.ErrorMsg;
+import mybatis.services.ExceptionData;
 import mybatis.services.JsonRespAttrName;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -15,7 +15,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
-import static mybatis.services.ICustomJsonResponses.getModelAndView;
+import static mybatis.services.CustomJsonResponses.getModelAndView;
 
 @Slf4j
 abstract class AbstractController implements IAbstractController {
@@ -57,15 +57,15 @@ abstract class AbstractController implements IAbstractController {
     public ModelMap handleMissingParam(HttpServletRequest req, MissingServletRequestParameterException ex) {
 
         log.debug("Request: " + req.getRequestURL() + " raised " + ex);
-        log.debug(IErrorMsg.MISSING_PARAM_MSG);
+        log.debug(ErrorMsg.MISSING_PARAM_MSG);
 
         ModelAndView mav = getModelAndView();
-        mav.addObject(JsonRespAttrName.EXCEPTION_DESCRIPTION, IExceptionData.MISSING_SERVLET_PARAM_EXC);
+        mav.addObject(JsonRespAttrName.EXCEPTION_DESCRIPTION, ExceptionData.MISSING_SERVLET_PARAM_EXC);
         mav.addObject(JsonRespAttrName.MESSAGE, ex.getMessage());
-        mav.addObject(JsonRespAttrName.CUSTOM_MSG, IErrorMsg.MISSING_PARAM_MSG);
+        mav.addObject(JsonRespAttrName.CUSTOM_MSG, ErrorMsg.MISSING_PARAM_MSG);
         mav.addObject(JsonRespAttrName.PATH, req.getRequestURL());
 
-        mav.setViewName(IErrorMsg.MISSING_PARAM_MSG);
+        mav.setViewName(ErrorMsg.MISSING_PARAM_MSG);
 
         log.info("Model class: " + mav.getModelMap().getClass());
 

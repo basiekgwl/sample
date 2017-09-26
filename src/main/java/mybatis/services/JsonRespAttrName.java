@@ -1,16 +1,19 @@
 package mybatis.services;
 
-public interface JsonRespAttrName {
+public final class JsonRespAttrName {
 
-    String ERROR_CODE = "status";
-    String HTTPS_STATUS = "statusHTTP";
-    String ERROR_TYPE = "error";
-    String EXCEPTION_DESCRIPTION = "exception";
-    String MESSAGE = "message";
-    String CUSTOM_MSG = "customMessage";
-    String PATH = "path";
+    private JsonRespAttrName() {
+        //not called
+    }
 
-    String USER_ID = "userId";
-    String USER_MSG = "userMessage";
+    public static final String ERROR_CODE = "status";
+    public static final String HTTPS_STATUS = "statusHTTP";
+    public static final String ERROR_TYPE = "error";
+    public static final String EXCEPTION_DESCRIPTION = "exception";
+    public static final String MESSAGE = "message";
+    public static final String CUSTOM_MSG = "customMessage";
+    public static final String PATH = "path";
 
+    public static final String USER_ID = "userId";
+    public static final String USER_MSG = "userMessage";
 }

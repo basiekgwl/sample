@@ -15,8 +15,8 @@ import mybatis.dto.mappers.UserDtoMapper;
 import mybatis.error.handler.OperationException;
 import mybatis.error.handler.UserDataNotFoundException;
 import mybatis.mapper.EmployeeDBMapper;
-import mybatis.services.IErrorMsg;
-import mybatis.services.IUserMsg;
+import mybatis.services.ErrorMsg;
+import mybatis.services.UserMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mybatis.services.ICustomJsonResponses.getJsonResponseForInsert;
+import static mybatis.services.CustomJsonResponses.getJsonResponseForInsert;
 
 @Slf4j
 @RestController
@@ -55,7 +55,7 @@ public class UserController extends AbstractController implements IUserControlle
     @Override
     public String deleteUserWithAccounts(String nik) {
         employeeDBMapper.deleteUserWithAccounts(nik);
-        return IUserMsg.DELETE_USER_DATA_SUCCESS + " UserId: " + nik;
+        return UserMsg.DELETE_USER_DATA_SUCCESS + " UserId: " + nik;
     }
 
     //DTO
@@ -94,7 +94,7 @@ public class UserController extends AbstractController implements IUserControlle
         employeeDBMapper.insertNewUser(myUserEntity);
 
         UserDto userDto = UserDtoMapper.mapUserData(myUserEntity);
-        return IUserMsg.INSERT_USER_SUCCESS + "NIK: " + userDto.getNik();
+        return UserMsg.INSERT_USER_SUCCESS + "NIK: " + userDto.getNik();
     }
 
     public String updateUser(String fullName, String userNip, String userPesel, String address, String city, String nik) {
@@ -103,7 +103,7 @@ public class UserController extends AbstractController implements IUserControlle
         employeeDBMapper.updateUserData(myUserEntity);
 
         UserDto userDto = UserDtoMapper.mapUserData(myUserEntity);
-        return IUserMsg.UPDATE_USER_SUCCESS + " User NIK: " + userDto.getNik();
+        return UserMsg.UPDATE_USER_SUCCESS + " User NIK: " + userDto.getNik();
     }
 
     public UserWithAccountsDto getUserEntityWithAllAccounts(String nik) {
@@ -113,7 +113,7 @@ public class UserController extends AbstractController implements IUserControlle
         UserEntity userEntityData = employeeDBMapper.getAllAccountsForUserById(nik);
 
         if (userEntityData == null) {
-            log.debug(IErrorMsg.MSG_IF_NULL);
+            log.debug(ErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
 
@@ -130,7 +130,7 @@ public class UserController extends AbstractController implements IUserControlle
         log.info("User entity:  " + userAccountEntity);
         if (userAccountEntity == null) {
 
-            log.error(IErrorMsg.MSG_IF_NULL);
+            log.error(ErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
 

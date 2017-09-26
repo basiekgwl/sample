@@ -8,7 +8,10 @@ public enum ReqAttr {
     EXCEPTION_DESCRIPTION("exception"),
     MESSAGE("message"),
     CUSTOM_MSG("customMessage"),
-    PATH("path");
+    PATH("path"),
+
+    USER_ID("userId"),
+    USER_MSG("userMessage");
 
     private final String attributeName;
 

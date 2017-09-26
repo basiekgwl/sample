@@ -1,6 +1,6 @@
 package mybatis.controller.interfaces;
 
-import mybatis.services.IErrorMsg;
+import mybatis.services.ErrorMsg;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public interface IAbstractController {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     ModelMap handleMissingParam(HttpServletRequest req, MissingServletRequestParameterException ex);
 
-    @ResponseStatus(value = HttpStatus.CONFLICT, reason = IErrorMsg.DATA_CONFLICT)  // 409
+    @ResponseStatus(value = HttpStatus.CONFLICT, reason = ErrorMsg.DATA_CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     void conflict();
 
