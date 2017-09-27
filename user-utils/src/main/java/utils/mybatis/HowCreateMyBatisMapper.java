@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import utils.mybatis.dao.UserEntity;
-import utils.mybatis.mapper.EmployeeDBMapper;
+import utils.mybatis.mapper.UserDbMapper;
 
 import java.io.Reader;
 import java.util.List;
@@ -26,7 +26,7 @@ public class HowCreateMyBatisMapper {
 
         String nik = "23655939";
 
-        EmployeeDBMapper mapper = session.getMapper(EmployeeDBMapper.class);
+        UserDbMapper mapper = session.getMapper(UserDbMapper.class);
         UserEntity employee = mapper.findById(nik);
 
         log.info("RESULT: findById(*) >>>>>> ");

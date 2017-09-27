@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import utils.mybatis.dao.UserAccountEntity;
 import utils.mybatis.dto.mappers.NewAccountDtoMapper;
 import utils.mybatis.error.handler.UserDataNotFoundException;
-import utils.mybatis.mapper.EmployeeDBMapper;
+import utils.mybatis.mapper.UserDbMapper;
 import utils.mybatis.services.CommonErrorMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -26,17 +26,17 @@ import java.util.List;
 public class NewAccountController implements INewAccountController{
 
     @Autowired
-    EmployeeDBMapper employeeDBMapper;
+    UserDbMapper userDbMapper;
 
     @Override
     public List<NewAccountDto> getAllAccounts() {
-        return NewAccountDtoMapper.returnAllAccountsListDto(employeeDBMapper.getAllAccounts());
+        return NewAccountDtoMapper.returnAllAccountsListDto(userDbMapper.getAllAccounts());
     }
 
     @Override
     public List<NewAccountDto> getUserAccounts(String nik) {
         List<NewAccountDto> listAccount = new ArrayList<>();
-        List<UserAccountEntity> userAccountEntities = employeeDBMapper.findAccountsForNik(nik);
+        List<UserAccountEntity> userAccountEntities = userDbMapper.findAccountsForNik(nik);
 
         userAccountEntities.forEach(userAccountEntity ->
                 listAccount.add(NewAccountDtoMapper.mapAccountEntityToDto(userAccountEntity)));
@@ -71,7 +71,7 @@ public class NewAccountController implements INewAccountController{
 
     @Override
     public NewAccountWithUserDto getOneAccountAndUserData(String accountNrb) {
-        UserAccountEntity userAccountEntity = employeeDBMapper.getAccountAndUserData(accountNrb);
+        UserAccountEntity userAccountEntity = userDbMapper.getAccountAndUserData(accountNrb);
 
         log.info("User entity:  " + userAccountEntity);
         if (userAccountEntity == null) {

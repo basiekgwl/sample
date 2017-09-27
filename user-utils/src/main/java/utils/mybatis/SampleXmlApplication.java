@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class SampleXmlApplication {
 
     public static void main(String[] args) {
-        System.setProperty("spring.config.name", "application-test");
+//        System.setProperty("spring.config.name", "application-test");
         SpringApplication.run(SampleXmlApplication.class, args);
     }
 }

@@ -9,8 +9,13 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Mapper
-public interface EmployeeDBMapper {
+public interface UserDbMapper {
 
+    // one to many - xml
+    UserEntity getAllAccountsForUserById(@Param("nik") String nik);
+
+    // one to one - xml
+    UserAccountEntity getAccountAndUserData(@Param("accountNrb") String accountNrb);
 
     @ResultMap("UserMap2")
     @Select("SELECT * FROM user WHERE nik = ${nik}")
@@ -58,9 +63,4 @@ public interface EmployeeDBMapper {
     long insertNewAccount(UserAccountEntity account);
 
 
-    // one to many - xml
-    UserEntity getAllAccountsForUserById(@Param("nik") String nik);
-
-    // one to one - xml
-    UserAccountEntity getAccountAndUserData(String accountNrb);
 }

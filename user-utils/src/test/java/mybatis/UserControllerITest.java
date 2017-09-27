@@ -43,11 +43,13 @@ public class UserControllerITest {
 
         String expected =
                 "{\n" +
+                        "\n" +
                         "    \"status\": \"ConstraintViolationException\",\n" +
                         "    \"statusHTTP\": \"BAD_REQUEST\",\n" +
                         "    \"error\": \"Bad Request\",\n" +
-                        "    \"message\": \"[ConstraintViolationImpl{interpolatedMessage='Parameter 'accountNbr' should be 26 characters long', propertyPath=getOneAccountAndUserData.arg0, rootBeanClass=class UserController, messageTemplate='Parameter 'accountNbr' should be 26 characters long'}]\",\n" +
+                        "    \"message\": \"[ConstraintViolationImpl{interpolatedMessage='Parameter 'accountNbr' should be 26 characters long', propertyPath=getOneAccountAndUserData.arg0, rootBeanClass=class utils.mybatis.controller.UserController, messageTemplate='Parameter 'accountNbr' should be 26 characters long'}]\",\n" +
                         "    \"path\": \"http://localhost:" + port + "/user/getOneAccountAndUserData\"\n" +
+                        "\n" +
                         "}";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);

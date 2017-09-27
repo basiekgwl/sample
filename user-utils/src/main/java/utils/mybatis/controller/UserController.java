@@ -9,7 +9,7 @@ import utils.mybatis.dto.UserDto;
 import utils.mybatis.dto.mappers.AccountDtoMapper;
 import utils.mybatis.dto.mappers.UserDtoMapper;
 import utils.mybatis.error.handler.UserDataNotFoundException;
-import utils.mybatis.mapper.EmployeeDBMapper;
+import utils.mybatis.mapper.UserDbMapper;
 import utils.mybatis.services.CommonErrorMsg;
 import utils.mybatis.services.UserMsg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +31,19 @@ public class UserController extends AbstractController implements IUserControlle
 
 
     @Autowired
-    private EmployeeDBMapper employeeDBMapper;
+    private UserDbMapper userDbMapper;
 
 
     //Entity - DELETE USER with all accounts
     @Override
     public String deleteUserWithAccounts(String nik) {
-        employeeDBMapper.deleteUserWithAccounts(nik);
+        userDbMapper.deleteUserWithAccounts(nik);
         return UserMsg.DELETE_USER_DATA_SUCCESS + " UserId: " + nik;
     }
 
     //DTO
     public UserDto getUserByNik(String nik) {
-        UserEntity user = employeeDBMapper.findById(nik);
+        UserEntity user = userDbMapper.findById(nik);
         UserDto userDto = UserDtoMapper.mapUserEntityToDto(user);
 
         log.debug("Get data: " + userDto);
@@ -53,7 +53,7 @@ public class UserController extends AbstractController implements IUserControlle
     public List<UserDto> getUserListByName(String fullName) {
 
         List<UserDto> userListDto = new ArrayList<>();
-        List<UserEntity> results = employeeDBMapper.findByUserFullName(fullName);
+        List<UserEntity> results = userDbMapper.findByUserFullName(fullName);
         for (UserEntity userEntity : results) {
             UserDto userDto = UserDtoMapper.mapUserEntityToDto(userEntity);
             log.debug("BEFORE - EntityData: UserData: " + userEntity);
@@ -74,7 +74,7 @@ public class UserController extends AbstractController implements IUserControlle
                 .nik(nik)
                 .build();
 
-        employeeDBMapper.insertNewUser(myUserEntity);
+        userDbMapper.insertNewUser(myUserEntity);
 
         UserDto userDto = UserDtoMapper.mapUserEntityToDto(myUserEntity);
         return UserMsg.INSERT_USER_SUCCESS + "NIK: " + userDto.getNik();
@@ -83,7 +83,7 @@ public class UserController extends AbstractController implements IUserControlle
     public String updateUser(String fullName, String userNip, String userPesel, String address, String city, String nik) {
 
         UserEntity myUserEntity = new UserEntity(fullName, userNip, userPesel, address, city, nik);
-        employeeDBMapper.updateUserData(myUserEntity);
+        userDbMapper.updateUserData(myUserEntity);
 
         UserDto userDto = UserDtoMapper.mapUserEntityToDto(myUserEntity);
         return UserMsg.UPDATE_USER_SUCCESS + " User NIK: " + userDto.getNik();
@@ -91,7 +91,7 @@ public class UserController extends AbstractController implements IUserControlle
 
     public AccountsWithUserDto getOneAccountAndUserData(String accountNrb) {
 
-        UserAccountEntity userAccountEntity = employeeDBMapper.getAccountAndUserData(accountNrb);
+        UserAccountEntity userAccountEntity = userDbMapper.getAccountAndUserData(accountNrb);
 
         log.info("User entity:  " + userAccountEntity);
         if (userAccountEntity == null) {
