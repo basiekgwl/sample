@@ -63,10 +63,9 @@ class UserControllerSpockTest extends Specification {
 
 
         then: "verify response"
-//        JSONAssert.assertEquals(expectedResp, response.getBody(), false)
-
         response.getBody().contains(expectedResp)
 
+        
         where:
         nik         | uri                              | expectedResp
         null        | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_FIRST
