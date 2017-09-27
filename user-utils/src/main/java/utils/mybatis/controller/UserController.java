@@ -44,7 +44,12 @@ public class UserController extends AbstractController implements IUserControlle
     //DTO
     public UserDto getUserByNik(String nik) {
         UserEntity user = userDbMapper.findById(nik);
+        if (user == null) {
+            log.error(CommonErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
         UserDto userDto = UserDtoMapper.mapUserEntityToDto(user);
+
 
         log.debug("Get data: " + userDto);
         return userDto;
@@ -54,6 +59,11 @@ public class UserController extends AbstractController implements IUserControlle
 
         List<UserDto> userListDto = new ArrayList<>();
         List<UserEntity> results = userDbMapper.findByUserFullName(fullName);
+
+        if(results == null) {
+            log.error(CommonErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
         for (UserEntity userEntity : results) {
             UserDto userDto = UserDtoMapper.mapUserEntityToDto(userEntity);
             log.debug("BEFORE - EntityData: UserData: " + userEntity);

@@ -34,7 +34,13 @@ public class AccountController extends AbstractController implements IAccountCon
 
     @Override
     public List<AccountDto> getAllAccounts() {
-        return AccountDtoMapper.mapAccountsList(userDbMapper.getAllAccounts());
+
+        List<UserAccountEntity> userAccountEntities = userDbMapper.getAllAccounts();
+        if (userAccountEntities == null) {
+            log.error(CommonErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
+        return AccountDtoMapper.mapAccountsList(userAccountEntities);
     }
 
     @Override
@@ -42,32 +48,36 @@ public class AccountController extends AbstractController implements IAccountCon
 
         List<AccountDto> listAccount = new ArrayList<>();
         List<UserAccountEntity> userAccountEntities = userDbMapper.findAccountsForNik(nik);
-
+        if (userAccountEntities == null) {
+            log.error(CommonErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
         userAccountEntities.forEach(userAccountEntity ->
                 listAccount.add(AccountDtoMapper.mapAccountDto(userAccountEntity)));
-
         return listAccount;
     }
 
     //ENTITY - temp only for training
     public AccountDto getAccountData(String nrb) {
-        return AccountDtoMapper.mapAccountDto(userDbMapper.getAccountByNumber(nrb));
+
+        UserAccountEntity userAccountEntity = userDbMapper.getAccountByNumber(nrb);
+        if (userAccountEntity == null) {
+            log.error(CommonErrorMsg.MSG_IF_NULL);
+            throw new UserDataNotFoundException();
+        }
+        return AccountDtoMapper.mapAccountDto(userAccountEntity);
     }
 
     public UserWithAccountsDto getUserEntityWithAllAccounts(String nik) {
 
         log.info("NIK: " + nik);
-
         UserEntity userEntityData = userDbMapper.getAllAccountsForUserById(nik);
-
         if (userEntityData == null) {
             log.debug(CommonErrorMsg.MSG_IF_NULL);
             throw new UserDataNotFoundException();
         }
-
         log.info("Data: " + userEntityData);
         log.info("AccountsData: " + userEntityData.getUserAccounts());
-
         return UserDtoMapper.mapUserWithAccounts(userEntityData);
     }
 

@@ -19,7 +19,8 @@ public interface IUserController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByNik")
     @ResponseBody
-    UserDto getUserByNik(@NotNull @RequestParam String nik);
+    UserDto getUserByNik(@Size(min = FieldsSize.NIK_MIN_SIZE, max = FieldsSize.NIK_MAX_SIZE)
+                         @NotNull @RequestParam String nik);
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByName")
@@ -40,7 +41,7 @@ public interface IUserController {
                       @Size(min = FieldsSize.USER_PESEL_SIZE, max = FieldsSize.USER_PESEL_SIZE, message = ErrorMsg.INVALID_PESEL_SIZE) @RequestParam String userPesel,
                       @Size(max = FieldsSize.USER_ADDRESS_MAX_SIZE, message = ErrorMsg.INVALID_ADDRESS_SIZE) @RequestParam String address,
                       @Size(max = FieldsSize.USER_CITY_MAX_SIZE, message = ErrorMsg.INVALID_CITY_SIZE) @RequestParam String city,
-                      @Size(max = FieldsSize.NIK_SIZE, message = ErrorMsg.INVALID_NIK_SIZE) @RequestParam String nik);
+                      @Size(max = FieldsSize.NIK_MAX_SIZE, message = ErrorMsg.INVALID_NIK_SIZE) @RequestParam String nik);
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/updateUser")
@@ -54,6 +55,7 @@ public interface IUserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/deleteUserWithAccounts")
     @ResponseBody
-    String deleteUserWithAccounts(@RequestParam @NotNull String nik);
+    String deleteUserWithAccounts(@Size(min = FieldsSize.NIK_MIN_SIZE, max = FieldsSize.NIK_MAX_SIZE)
+                                  @RequestParam @NotNull String nik);
 
 }

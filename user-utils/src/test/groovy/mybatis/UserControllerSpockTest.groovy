@@ -28,32 +28,52 @@ class UserControllerSpockTest extends Specification {
 
 
     @Unroll
-    def "should load all data"() {
+    def "POS - getUserByNik"() {
         given: "set preconditions"
-        String testReq = "Ala"
-        String nik = "23241122"
-
         HttpEntity<String> entity = new HttpEntity<String>(null, headers)
-        String expected = TestDataRespList.RESP_FIRST
 
         when: "Send requst"
-        String test2 = "MaKota"
-
-
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort(TestDataRespList.GET_USER_BY_NIK + nik),
+                createURLWithPort(uri + nik),
                 HttpMethod.GET, entity, String.class)
 
 
         then: "verify response"
-        (testReq + test2) == "AlaMaKota"
+        JSONAssert.assertEquals(expectedResp, response.getBody(), false)
 
-        JSONAssert.assertEquals(expected, response.getBody(), false);
+
+        where:
+        nik        | uri                              | expectedResp
+        "23241122" | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_FIRST
+        "23241534" | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_SECOND
     }
 
-//    private String createURLWithPort(String uri) {
-//        return "http://localhost:" + port + uri;
-//    }
+
+    @Unroll
+    def "NEG - getUserByNik"() {
+
+        given: "set preconditions"
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers)
+
+
+        when: "Send requst"
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort(uri + nik),
+                HttpMethod.GET, entity, String.class)
+
+
+        then: "verify response"
+//        JSONAssert.assertEquals(expectedResp, response.getBody(), false)
+
+        response.getBody().contains(expectedResp)
+
+        where:
+        nik         | uri                              | expectedResp
+        null        | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_FIRST
+        "12345"     | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_FIRST
+        "123456333" | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_FIRST
+        "23241533"  | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_SECOND
+    }
 
 
     private String createURLWithPort(String uri) {

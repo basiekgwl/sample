@@ -14,7 +14,7 @@ public final class ErrorMsg {
     public static final String INVALID_PESEL_SIZE = "Parameter 'userPesel' should have max " + FieldsSize.USER_ADDRESS_MAX_SIZE + CHAR;
     public static final String INVALID_ADDRESS_SIZE = "Parameter 'address' should have max " + FieldsSize.USER_ADDRESS_MAX_SIZE + CHAR;
     public static final String INVALID_CITY_SIZE = "Parameter 'city' should have max " + FieldsSize.USER_CITY_MAX_SIZE + CHAR;
-    public static final String INVALID_NIK_SIZE = "Parameter 'nik' should have max " + FieldsSize.NIK_SIZE + CHAR;
+    public static final String INVALID_NIK_SIZE = "Parameter 'nik' should have max " + FieldsSize.NIK_MAX_SIZE + CHAR;
 
     public static final String INVALID_NBR_SIZE = "Parameter 'accountNbr' should be " + FieldsSize.ACCOUNT_NRB_SIZE + CHAR + " long";
 
