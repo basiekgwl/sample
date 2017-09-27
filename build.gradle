@@ -32,6 +32,11 @@ test {
     systemProperty 'project.buildDir', project.buildDir
 }
 
+bootRepackage  {
+    classifier = 'exec'
+}
+
+
 dependencies {
     // mandatory dependencies for using Spock
     compile "org.codehaus.groovy:groovy-all:2.4.10"

@@ -3,6 +3,10 @@ version '1.0.1-SNAPSHOT'
 
 buildscript {
     repositories {
+
+        flatDir {
+            dirs "libs"
+        }
         mavenCentral()
         mavenLocal()
     }
@@ -30,12 +34,22 @@ repositories {
     mavenCentral()
 }
 
+bootRepackage  {
+    classifier = 'exec'
+}
+
 jar {
     baseName = 'user-utils'
     version = '1.0.1-SNAPSHOT'
 }
 
 dependencies {
+
+
+    compile fileTree(dir: 'libs', include: '*.jar')
+
+//    compile files('./src/main/resources/libs/user-web-api-1.0.1-SNAPSHOT.jar')
+
     // mandatory dependencies for using Spock
     compile "org.codehaus.groovy:groovy-all:2.4.10"
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
@@ -97,8 +111,6 @@ dependencies {
 
     compile "org.springframework.boot:spring-boot-configuration-processor"
 
-    compile project(":user-web-api")
+//    compile project(":user-web-api")
 
-
-//    compile files('libs/user-web-api-1.0.1-SHAPSHOT.jar')
 }

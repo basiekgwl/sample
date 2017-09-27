@@ -18,13 +18,16 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
+sourceCompatibility = 1.8
+
+bootRepackage  {
+    classifier = 'exec'
+}
 
 jar {
     baseName = 'user-web-api'
     version = '1.0.1-SNAPSHOT'
 }
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
