@@ -65,7 +65,7 @@ class UserControllerSpockTest extends Specification {
         then: "verify response"
         response.getBody().contains(expectedResp)
 
-        
+
         where:
         nik         | uri                              | expectedResp
         null        | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_FIRST
