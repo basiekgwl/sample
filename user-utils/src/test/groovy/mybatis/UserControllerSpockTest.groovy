@@ -13,7 +13,7 @@ import utils.mybatis.SampleXmlApplication
 @Slf4j
 @ContextConfiguration
 @SpringBootTest(classes = SampleXmlApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserControllerSpockIT extends Specification {
+class UserControllerSpockTest extends Specification {
 
 
     @LocalServerPort

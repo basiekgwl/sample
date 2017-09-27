@@ -1,8 +1,8 @@
 package utils.mybatis.dto.mappers;
 
-import utils.mybatis.dto.AccountsWithUserDto;
+import webapi.mybatis.dto.AccountsWithUserDto;
 import utils.mybatis.dao.UserAccountEntity;
-import utils.mybatis.dto.AccountDto;
+import webapi.mybatis.dto.AccountDto;
 
 import java.util.ArrayList;
 import java.util.List;

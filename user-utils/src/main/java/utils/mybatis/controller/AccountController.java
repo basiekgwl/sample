@@ -1,18 +1,18 @@
 package utils.mybatis.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import utils.mybatis.controller.interfaces.IAccountController;
+import webapi.mybatis.api.IAccountController;
 import utils.mybatis.dao.UserAccountEntity;
 import utils.mybatis.dao.UserEntity;
-import utils.mybatis.dto.AccountDto;
-import utils.mybatis.dto.UserWithAccountsDto;
+import webapi.mybatis.dto.AccountDto;
+import webapi.mybatis.dto.UserWithAccountsDto;
 import utils.mybatis.dto.mappers.AccountDtoMapper;
 import utils.mybatis.dto.mappers.UserDtoMapper;
 import utils.mybatis.error.handler.OperationException;
 import utils.mybatis.error.handler.UserDataNotFoundException;
 import utils.mybatis.mapper.UserDbMapper;
 import utils.mybatis.services.CustomJsonResponses;
-import webapi.mybatis.AccountType;
+import webapi.mybatis.dict.AccountType;
 import utils.mybatis.services.CommonErrorMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;

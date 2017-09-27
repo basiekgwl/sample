@@ -1,8 +1,8 @@
 package utils.mybatis.dto.mappers;
 
-import utils.mybatis.dto.UserDto;
+import webapi.mybatis.dto.UserDto;
 import utils.mybatis.dao.UserEntity;
-import utils.mybatis.dto.UserWithAccountsDto;
+import webapi.mybatis.dto.UserWithAccountsDto;
 
 public interface UserDtoMapper {
 

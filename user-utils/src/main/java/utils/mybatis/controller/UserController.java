@@ -1,11 +1,11 @@
 package utils.mybatis.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import utils.mybatis.controller.interfaces.IUserController;
+import webapi.mybatis.api.IUserController;
 import utils.mybatis.dao.UserAccountEntity;
 import utils.mybatis.dao.UserEntity;
-import utils.mybatis.dto.AccountsWithUserDto;
-import utils.mybatis.dto.UserDto;
+import webapi.mybatis.dto.AccountsWithUserDto;
+import webapi.mybatis.dto.UserDto;
 import utils.mybatis.dto.mappers.AccountDtoMapper;
 import utils.mybatis.dto.mappers.UserDtoMapper;
 import utils.mybatis.error.handler.UserDataNotFoundException;

@@ -1,7 +1,7 @@
 package utils.mybatis.dao;
 
 import lombok.*;
-import webapi.mybatis.AccountType;
+import webapi.mybatis.dict.AccountType;
 
 import java.math.BigDecimal;
 

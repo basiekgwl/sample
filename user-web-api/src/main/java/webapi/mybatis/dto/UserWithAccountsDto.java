@@ -4,14 +4,14 @@ import lombok.*;
 
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewUserWithAccountsDto {
+public class UserWithAccountsDto {
 
-    private NewUserDto userDto;
-    List<NewAccountDto> accountDtoList;
+    UserDto userDto;
+    List<AccountDto> accountDtoList;
 
 }

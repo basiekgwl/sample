@@ -1,4 +1,4 @@
-package utils.mybatis.dto;
+package webapi.mybatis.dto;
 
 
 import lombok.*;
