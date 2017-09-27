@@ -1,3 +1,4 @@
 rootProject.name = 'sample'
 include 'user-web-api'
+include 'user-utils'
 

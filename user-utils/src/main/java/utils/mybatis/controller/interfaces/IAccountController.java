@@ -1,53 +1,50 @@
-package webapi.mybatis.api;
+package utils.mybatis.controller.interfaces;
 
-import com.viscomp.services.ErrorMsg;
-import com.viscomp.services.FieldsSize;
+import utils.mybatis.dto.AccountDto;
+import utils.mybatis.dto.UserWithAccountsDto;
+import webapi.mybatis.AccountType;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import webapi.mybatis.AccountType;
-import webapi.mybatis.dto.NewAccountDto;
-import webapi.mybatis.dto.NewAccountWithUserDto;
-import webapi.mybatis.dto.NewUserWithAccountsDto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@Validated
-@RequestMapping(path = "/api/accounts")
-public interface INewAccountController {
+@Validated // This means that this class is a Controller
+@RequestMapping(path = "/user") // This means URL's start with /demo (after Application path)
+public interface IAccountController {
+
 
     //GET - SELECT
     @RequestMapping(method = RequestMethod.GET, path = "/getAllAccounts")
     @ResponseBody
-    List<NewAccountDto> getAllAccounts();
+    List<AccountDto> getAllAccounts();
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserAccounts")
     @ResponseBody
-    List<NewAccountDto> getUserAccounts(@RequestParam @NotNull String nik);
+    List<AccountDto> getUserAccounts(@RequestParam @NotNull String nik);
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAccountByNrb")
     @ResponseBody
-    NewAccountDto getAccountData(@RequestParam @NotNull String nrb);
+    AccountDto getAccountData(@RequestParam @NotNull String nrb);
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/getAccountsForUser")
     @ResponseBody
-    NewUserWithAccountsDto getUserEntityWithAllAccounts(@RequestParam("nik") @NotNull String nik);
+    UserWithAccountsDto getUserEntityWithAllAccounts(@RequestParam("nik") @NotNull String nik);
 
 
     //POST - INSERT and UPDATE
     @RequestMapping(method = RequestMethod.POST, path = "/insertNrbForUser")
     @ResponseBody
-    NewAccountDto insertNrbData(@RequestParam @NotNull Long id,
-                                @RequestParam @NotNull String nrb,
-                                @RequestParam @NotNull AccountType type,
-                                @RequestParam @NotNull BigDecimal balance);
+    AccountDto insertNrbData(@RequestParam @NotNull Long id,
+                             @RequestParam @NotNull String nrb,
+                             @RequestParam @NotNull AccountType type,
+                             @RequestParam @NotNull BigDecimal balance);
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/insertNrb")
@@ -66,8 +63,4 @@ public interface INewAccountController {
                          @RequestParam String balance,
                          @RequestParam String city);
 
-    @RequestMapping(method = RequestMethod.GET, path = "/getOneAccountAndUserData")
-    @ResponseBody
-    NewAccountWithUserDto getOneAccountAndUserData(@Size(min = FieldsSize.ACCOUNT_NRB_SIZE, max = FieldsSize.ACCOUNT_NRB_SIZE, message = ErrorMsg.INVALID_NBR_SIZE)
-                                                   @NotNull @RequestParam String accountNrb);
 }

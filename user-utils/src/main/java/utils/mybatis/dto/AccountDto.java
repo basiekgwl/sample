@@ -1,16 +1,16 @@
-package webapi.mybatis.dto;
+package utils.mybatis.dto;
 
 import lombok.*;
 import webapi.mybatis.AccountType;
 
 import java.math.BigDecimal;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewAccountDto {
+public class AccountDto {
 
     private String nrb;
     private AccountType accountType;
