@@ -41,7 +41,6 @@ class UserControllerSpockTest extends Specification {
         then: "verify response"
         JSONAssert.assertEquals(expectedResp, response.getBody(), false)
 
-
         where:
         nik        | uri                              | expectedResp
         "23241122" | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_FIRST
@@ -73,7 +72,6 @@ class UserControllerSpockTest extends Specification {
         "123456333" | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_FIRST
         "23241533"  | TestDataRespList.GET_USER_BY_NIK | TestDataRespList.RESP_EXC_SECOND
     }
-
 
     private String createURLWithPort(String uri) {
         return "http://localhost:" + port + uri

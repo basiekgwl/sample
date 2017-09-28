@@ -16,4 +16,9 @@ public class AccountDto {
     private AccountType accountType;
     private BigDecimal balance;
 
+
+    @Override
+    public String toString() {
+        return "AccountDTO[nrb:" + nrb + ", accountType:" + accountType + ", balance:" + balance + "]";
+    }
 }

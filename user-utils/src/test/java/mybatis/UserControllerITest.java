@@ -132,6 +132,7 @@ public class UserControllerITest {
                         "}";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
+
     }
 
     @Test

@@ -2,6 +2,7 @@ package webapi.mybatis.api;
 
 import com.viscomp.services.ErrorMsg;
 import com.viscomp.services.FieldsSize;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public interface IUserController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/getUserByNik")
     @ResponseBody
-    UserDto getUserByNik(@Size(min = FieldsSize.NIK_MIN_SIZE, max = FieldsSize.NIK_MAX_SIZE)
+    UserDto getUserByNik(@NotBlank @Size(min = FieldsSize.NIK_MIN_SIZE, max = FieldsSize.NIK_MAX_SIZE)
                          @NotNull @RequestParam String nik);
 
 
@@ -46,12 +47,12 @@ public interface IUserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/updateUser")
     @ResponseBody
-    String updateUser(@RequestParam String fullName,
+    String updateUser(@NotBlank @RequestParam String fullName,
                       @RequestParam String userNip,
                       @RequestParam String userPesel,
-                      @RequestParam String address,
-                      @RequestParam String city,
-                      @RequestParam String nik);
+                      @NotBlank @RequestParam String address,
+                      @NotBlank @RequestParam String city,
+                      @NotBlank @RequestParam String nik);
 
     @RequestMapping(method = RequestMethod.POST, path = "/deleteUserWithAccounts")
     @ResponseBody
