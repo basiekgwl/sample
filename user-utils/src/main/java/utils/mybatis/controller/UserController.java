@@ -33,7 +33,6 @@ public class UserController extends AbstractController implements IUserControlle
     @Autowired
     private UserDbMapper userDbMapper;
 
-
     //Entity - DELETE USER with all accounts
     @Override
     public String deleteUserWithAccounts(String nik) {
@@ -45,11 +44,10 @@ public class UserController extends AbstractController implements IUserControlle
     public UserDto getUserByNik(String nik) {
         UserEntity user = userDbMapper.findById(nik);
         if (user == null) {
-            log.error(CommonErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL + " NIK:" + nik);
             throw new UserDataNotFoundException();
         }
         UserDto userDto = UserDtoMapper.mapUserEntityToDto(user);
-
 
         log.debug("Get data: " + userDto);
         return userDto;
@@ -61,13 +59,13 @@ public class UserController extends AbstractController implements IUserControlle
         List<UserEntity> results = userDbMapper.findByUserFullName(fullName);
 
         if(results == null) {
-            log.error(CommonErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL + " NAME:" + fullName);
             throw new UserDataNotFoundException();
         }
         for (UserEntity userEntity : results) {
             UserDto userDto = UserDtoMapper.mapUserEntityToDto(userEntity);
             log.debug("BEFORE - EntityData: UserData: " + userEntity);
-            log.debug("AFTER: DTO Data: ");
+            log.debug("AFTER: DTO Data: " + userDto);
             userListDto.add(userDto);
         }
         return userListDto;
@@ -87,7 +85,7 @@ public class UserController extends AbstractController implements IUserControlle
         userDbMapper.insertNewUser(myUserEntity);
 
         UserDto userDto = UserDtoMapper.mapUserEntityToDto(myUserEntity);
-        return UserMsg.INSERT_USER_SUCCESS + "NIK: " + userDto.getNik();
+        return UserMsg.INSERT_USER_SUCCESS + " NIK: " + userDto.getNik();
     }
 
     public String updateUser(String fullName, String userNip, String userPesel, String address, String city, String nik) {
@@ -106,7 +104,7 @@ public class UserController extends AbstractController implements IUserControlle
         log.info("User entity:  " + userAccountEntity);
         if (userAccountEntity == null) {
 
-            log.error(CommonErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL + " NRB:" + accountNrb);
             throw new UserDataNotFoundException();
         }
 

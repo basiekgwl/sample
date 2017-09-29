@@ -20,7 +20,7 @@ public class UserDto {
     @Override
     public String toString() {
         return String.format(
-                "UserDTO[nik=%s, fullName='%s', NIP='%s', Pesel= '%s', address='%s']",
+                "UserDTO[nik=%s, fullName='%s', NIP='%s', Pesel='%s', address='%s']",
                 getNik(), getFullName(), getNip(), getPesel(), getAddress());
     }
 }

@@ -1,4 +1,4 @@
-package mybatis;
+package mybatis.integration;
 
 public final class TestDataRespList {
 

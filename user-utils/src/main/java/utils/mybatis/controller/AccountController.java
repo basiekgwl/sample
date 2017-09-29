@@ -37,7 +37,7 @@ public class AccountController extends AbstractController implements IAccountCon
 
         List<UserAccountEntity> userAccountEntities = userDbMapper.getAllAccounts();
         if (userAccountEntities == null) {
-            log.error(CommonErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL + " ALL ACCOUNTS IN DB");
             throw new UserDataNotFoundException();
         }
         return AccountDtoMapper.mapAccountsList(userAccountEntities);
@@ -49,7 +49,7 @@ public class AccountController extends AbstractController implements IAccountCon
         List<AccountDto> listAccount = new ArrayList<>();
         List<UserAccountEntity> userAccountEntities = userDbMapper.findAccountsForNik(nik);
         if (userAccountEntities == null) {
-            log.error(CommonErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL + " NIK:" + nik);
             throw new UserDataNotFoundException();
         }
         userAccountEntities.forEach(userAccountEntity ->
@@ -62,7 +62,7 @@ public class AccountController extends AbstractController implements IAccountCon
 
         UserAccountEntity userAccountEntity = userDbMapper.getAccountByNumber(nrb);
         if (userAccountEntity == null) {
-            log.error(CommonErrorMsg.MSG_IF_NULL);
+            log.error(CommonErrorMsg.MSG_IF_NULL + " NRB:" + nrb);
             throw new UserDataNotFoundException();
         }
         return AccountDtoMapper.mapAccountDto(userAccountEntity);
@@ -73,7 +73,7 @@ public class AccountController extends AbstractController implements IAccountCon
         log.info("NIK: " + nik);
         UserEntity userEntityData = userDbMapper.getAllAccountsForUserById(nik);
         if (userEntityData == null) {
-            log.debug(CommonErrorMsg.MSG_IF_NULL);
+            log.debug(CommonErrorMsg.MSG_IF_NULL + " NIK:" + nik);
             throw new UserDataNotFoundException();
         }
         log.info("Data: " + userEntityData);

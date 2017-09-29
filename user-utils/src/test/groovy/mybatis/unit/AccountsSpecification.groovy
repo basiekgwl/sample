@@ -1,4 +1,4 @@
-package mybatis
+package mybatis.unit
 
 import groovy.util.logging.Slf4j
 import spock.lang.Specification
@@ -99,14 +99,14 @@ class AccountsSpecification extends Specification {
         userDto.getNik() == "23241534"
 
 
-        userDto.toString() == "UserDTO[nik=23241534, fullName='Hermiona Granger', NIP='5539981232', Pesel= '81030512999', address='ul. Miodowa 1/23, 31-865 Kraków']"
+        userDto.toString() == "UserDTO[nik=23241534, fullName='Hermiona Granger', NIP='5539981232', Pesel='81030512999', address='ul. Miodowa 1/23, 31-865 Kraków']"
         accountDtoList.get(0).toString() == "AccountDTO[nrb:26254111111111113333443322, accountType:DOMESTIC, balance:1235]"
         accountDtoList.get(1).toString() == "AccountDTO[nrb:26254111111111110000443322, accountType:CREDITS, balance:10000]"
         accountDtoList.get(2).toString() == "AccountDTO[nrb:26254111111111110000440001, accountType:SAVINGS, balance:23987.23]"
 
 
         userWithAccountsDto.toString() ==
-               "UserDTO[nik=23241534, fullName='Hermiona Granger', NIP='5539981232', Pesel= '81030512999', address='ul. Miodowa 1/23, 31-865 Kraków'] " +
+               "UserDTO[nik=23241534, fullName='Hermiona Granger', NIP='5539981232', Pesel='81030512999', address='ul. Miodowa 1/23, 31-865 Kraków'] " +
                 "[AccountDTO[nrb:26254111111111113333443322, accountType:DOMESTIC, balance:1235], " +
                 "AccountDTO[nrb:26254111111111110000443322, accountType:CREDITS, balance:10000], " +
                 "AccountDTO[nrb:26254111111111110000440001, accountType:SAVINGS, balance:23987.23]]"
