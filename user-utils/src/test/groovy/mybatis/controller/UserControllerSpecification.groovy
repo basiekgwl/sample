@@ -291,7 +291,7 @@ class UserControllerSpecification extends AssertUtils {
         assert userDto.pesel == userEntity.userPesel
         assert userDto.address == userEntity.userAddress
     }
-    
+
     String returnExpectedMessage(String format, String nik) {
         return format + " NIK: " + nik
     }
