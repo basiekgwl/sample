@@ -7,7 +7,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import utils.mybatis.interfaces.IPageableService;
-import webapi.mybatis.dict.SortTypes;
+import utils.mybatis.enums.SortTypes;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

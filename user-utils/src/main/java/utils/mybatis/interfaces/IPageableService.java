@@ -3,7 +3,7 @@ package utils.mybatis.interfaces;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import webapi.mybatis.dict.SortTypes;
+import utils.mybatis.enums.SortTypes;
 
 import java.util.List;
 import java.util.Map;

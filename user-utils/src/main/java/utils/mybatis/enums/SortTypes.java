@@ -1,4 +1,4 @@
-package webapi.mybatis.dict;
+package utils.mybatis.enums;
 
 public enum SortTypes {
 

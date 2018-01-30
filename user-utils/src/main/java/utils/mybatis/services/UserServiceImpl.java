@@ -11,8 +11,8 @@ import utils.mybatis.dto.mappers.UserDtoMapper;
 import utils.mybatis.error.handler.UserDataNotFoundException;
 import utils.mybatis.interfaces.UserService;
 import utils.mybatis.mapper.UserDbMapper;
-import webapi.mybatis.dict.SortTypes;
-import webapi.mybatis.dict.UserColumns;
+import utils.mybatis.enums.SortTypes;
+import utils.mybatis.enums.UserColumns;
 import webapi.mybatis.dto.UserDto;
 
 import java.util.ArrayList;
