@@ -1,5 +1,6 @@
 package utils.mybatis.mapper;
 
+import org.apache.ibatis.session.RowBounds;
 import utils.mybatis.dao.UserEntity;
 import utils.mybatis.dao.UserAccountEntity;
 import org.apache.ibatis.annotations.*;
@@ -21,7 +22,11 @@ public interface UserDbMapper {
     @Select("SELECT * FROM user WHERE nik = ${nik}")
     UserEntity findById(@Param("nik") String nik);
 
+    @ResultMap("UserMap2")
     List<UserEntity> findByCity(String city);
+
+    @ResultMap("UserMap2")
+    int countAll();
 
     @ResultMap("UserMap2")
     @Select("SELECT * FROM user WHERE user_name = ${fullName}")
@@ -35,6 +40,9 @@ public interface UserDbMapper {
 
     @ResultMap("UserMap2")
     void deleteUserWithAccounts(@RequestParam("nik") @NotNull String nik);
+
+    @ResultMap("UserMap2")
+    List<UserEntity> selectAllUsers(@Param("selectByColumn") String selectByColumn, @Param("sortType") String sortType, RowBounds rowbounds);
 
     @ResultMap("UserMap2")
     @Update("UPDATE user SET user_name=#{userFullName}, user_nip=#{userNip}, user_pesel=#{userPesel}," +

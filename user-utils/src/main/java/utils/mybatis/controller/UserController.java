@@ -1,9 +1,15 @@
 package utils.mybatis.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
+import utils.mybatis.interfaces.UserService;
+import utils.mybatis.services.UserServiceImpl;
 import webapi.mybatis.api.IUserController;
 import utils.mybatis.dao.UserAccountEntity;
+import org.apache.ibatis.session.RowBounds;
 import utils.mybatis.dao.UserEntity;
+import webapi.mybatis.dict.SortTypes;
 import webapi.mybatis.dto.AccountsWithUserDto;
 import webapi.mybatis.dto.UserDto;
 import utils.mybatis.dto.mappers.AccountDtoMapper;
@@ -12,7 +18,7 @@ import utils.mybatis.error.handler.UserDataNotFoundException;
 import utils.mybatis.mapper.UserDbMapper;
 import utils.mybatis.services.CommonErrorMsg;
 import utils.mybatis.services.UserMsg;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -21,17 +27,18 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 @Validated // This means that this class is a Controller
 public class UserController extends AbstractController implements IUserController {
 
+    private final UserService userService;
 
-    @Autowired
-    private UserDbMapper userDbMapper;
+    private final UserDbMapper userDbMapper;
 
     //Entity - DELETE USER with all accounts
     @Override
@@ -41,6 +48,10 @@ public class UserController extends AbstractController implements IUserControlle
     }
 
     //DTO
+    public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
+        return userService.selectAllUsersFromPage(pageable);
+    }
+
     public UserDto getUserByNik(String nik) {
         UserEntity user = userDbMapper.findById(nik);
         if (user == null) {
@@ -54,22 +65,9 @@ public class UserController extends AbstractController implements IUserControlle
     }
 
     public List<UserDto> getUserListByName(String fullName) {
-
-        List<UserDto> userListDto = new ArrayList<>();
-        List<UserEntity> results = userDbMapper.findByUserFullName(fullName);
-
-        if(results == null) {
-            log.error(CommonErrorMsg.MSG_IF_NULL + " NAME:" + fullName);
-            throw new UserDataNotFoundException();
-        }
-        for (UserEntity userEntity : results) {
-            UserDto userDto = UserDtoMapper.mapUserEntityToDto(userEntity);
-            log.debug("BEFORE - EntityData: UserData: " + userEntity);
-            log.debug("AFTER: DTO Data: " + userDto);
-            userListDto.add(userDto);
-        }
-        return userListDto;
+        return userService.getUserListByName(fullName);
     }
+
 
     public String addNewUser(String fullName, String userNip, String userPesel, String address, String city, String nik) {
 
@@ -131,4 +129,6 @@ public class UserController extends AbstractController implements IUserControlle
         super.conflict();
     }
 
+
 }
+

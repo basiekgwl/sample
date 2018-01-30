@@ -3,9 +3,12 @@ package webapi.mybatis.api;
 import com.viscomp.services.ErrorMsg;
 import com.viscomp.services.FieldsSize;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import webapi.mybatis.dict.SortTypes;
 import webapi.mybatis.dto.AccountsWithUserDto;
 import webapi.mybatis.dto.UserDto;
 
@@ -34,6 +37,13 @@ public interface IUserController {
     AccountsWithUserDto getOneAccountAndUserData(@Size(min = FieldsSize.ACCOUNT_NRB_SIZE, max = FieldsSize.ACCOUNT_NRB_SIZE, message = ErrorMsg.INVALID_NBR_SIZE)
                                                  @NotNull @RequestParam String accountNrb);
 
+//    @RequestMapping(method = RequestMethod.GET, path = "/getAllUserOnPage")
+//    @ResponseBody
+//    List<UserDto> selectAllUsers(@NotNull @RequestParam int pageNumber, int size, String columnName, SortTypes sortType);
+
+    @RequestMapping(method = RequestMethod.GET, path = "/selectAllUsersFromPage")
+    @ResponseBody
+    Page<UserDto> selectAllUsersFromPage(Pageable pageable);
 
     @RequestMapping(method = RequestMethod.POST, path = "/insertUser")
     @ResponseBody

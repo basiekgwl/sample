@@ -89,6 +89,22 @@
         select * from user_accounts where account_nrb =  #{nrb};
     </select>
 
+    <select id="selectAllUsers" resultMap="UserMap2" resultType="utils.mybatis.dao.UserEntity">
+        select * from USER order by ${selectByColumn} ${sortType}, id ASC;
+    </select>
+
+    <sql id="queryUserConditions">
+        where ${queryConditions}
+    </sql>
+    <select id="countAll" resultType="int">
+        select count(*) from USER;
+    </select>
+
+    <select id="countAllByFilter" resultType="int">
+        select count(*) from USER <include refid="queryUserConditions" />
+    </select>
+
+
     <insert id="insertAccountData" parameterType="utils.mybatis.dao.UserAccountEntity" keyProperty="accountId" timeout="10"
             useGeneratedKeys="true">
         insert into user_accounts (id, account_nrb, account_type, balance) values (
