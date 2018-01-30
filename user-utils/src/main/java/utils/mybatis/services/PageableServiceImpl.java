@@ -35,7 +35,7 @@ public class PageableServiceImpl implements IPageableService {
         List<String> orders = new ArrayList<>();
 
         if (sortProperties == null) {
-            orders = setDefaultOrderIfSortIsNull(sortByDefaultColumnName);
+            orders = setDefaultOrderCriteriaIfSortIsNull(sortByDefaultColumnName);
         } else {
             for (Sort.Order order : sortProperties) {
                 String columnName = setSortCriteria(order.getProperty(), sortByDefaultColumnName);
@@ -61,20 +61,6 @@ public class PageableServiceImpl implements IPageableService {
         return SortTypes.valueOf(orderType);
     }
 
-    private String setSortCriteria(String sortCriteria, String defaultValue) {
-        if (sortCriteria == null) {
-            sortCriteria = defaultValue;
-        }
-        return sortCriteria;
-    }
-
-    private List<String> setDefaultOrderIfSortIsNull(String defaultColumnName) {
-        List<String> orders = new ArrayList<>();
-        String orderType = SortCriteria.DEFAULT_ORDER_TYPE;
-        orders.add(String.format("%s %s", defaultColumnName, orderType));
-        return orders;
-    }
-
     public <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount) {
         int pageNumber = pageable.getPageNumber() - 1;
         Pageable newPageableData = new PageRequest(pageNumber, pageable.getPageSize(), pageable.getSort());
@@ -83,9 +69,9 @@ public class PageableServiceImpl implements IPageableService {
 
     public RowBounds rowBoundsParam(int pageNumber, int itemsPerPage) {
 
-        int offset = (pageNumber - 1) * itemsPerPage;
         RowBounds rowbounds = new RowBounds();
-        if (pageNumber != 0) {
+        int offset = (pageNumber - 1) * itemsPerPage;
+        if (pageNumber > 0) {
             rowbounds = new RowBounds(offset, itemsPerPage);
         }
         return rowbounds;
@@ -93,5 +79,19 @@ public class PageableServiceImpl implements IPageableService {
 
     public String returnSortTypeValue(SortTypes sortType) {
         return sortType.getSortType();
+    }
+
+    private String setSortCriteria(String sortCriteria, String defaultValue) {
+        if (sortCriteria == null) {
+            sortCriteria = defaultValue;
+        }
+        return sortCriteria;
+    }
+
+    private List<String> setDefaultOrderCriteriaIfSortIsNull(String defaultColumnName) {
+        List<String> orders = new ArrayList<>();
+        String orderType = SortCriteria.DEFAULT_ORDER_TYPE;
+        orders.add(String.format("%s %s", defaultColumnName, orderType));
+        return orders;
     }
 }
