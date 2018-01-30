@@ -1,6 +1,5 @@
 package utils.mybatis.services;
 
-import com.github.miemiedev.mybatis.paginator.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -21,6 +20,8 @@ import java.util.Map;
 @Slf4j
 public class PageableServiceImpl implements IPageableService {
 
+    private static final String DEFAULT_ORDER_TYPE = SortCriteria.DEFAULT_ORDER_TYPE;
+
     public Map<String, Integer> pageNumberSizeAndOffset(Pageable pageable) {
 
         Map<String, Integer> pageableData = new LinkedHashMap<>();
@@ -40,7 +41,7 @@ public class PageableServiceImpl implements IPageableService {
         } else {
             for (Sort.Order order : sortProperties) {
                 String columnName = setSortCriteria(order.getProperty(), sortByDefaultColumnName);
-                String orderType = setSortCriteria(order.getDirection().name(), SortCriteria.DEFAULT_ORDER_TYPE);
+                String orderType = setSortCriteria(order.getDirection().name(), DEFAULT_ORDER_TYPE);
                 orders.add(String.format("%s %s", columnName, orderType));
             }
         }
@@ -96,8 +97,7 @@ public class PageableServiceImpl implements IPageableService {
 
     private List<String> setDefaultOrderCriteriaIfSortIsNull(String defaultColumnName) {
         List<String> orders = new ArrayList<>();
-        String orderType = SortCriteria.DEFAULT_ORDER_TYPE;
-        orders.add(String.format("%s %s", defaultColumnName, orderType));
+        orders.add(String.format("%s %s", defaultColumnName, DEFAULT_ORDER_TYPE));
         return orders;
     }
 }
