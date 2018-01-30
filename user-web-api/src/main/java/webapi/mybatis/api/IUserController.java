@@ -40,6 +40,7 @@ public interface IUserController {
 //    @ResponseBody
 //    List<UserDto> selectAllUsers(@NotNull @RequestParam int pageNumber, int size, String columnName, SortTypes sortType);
 
+    //http://localhost:8080/api/user/selectAllUsersFromPage?page=3&size=3&sort=NIK,DESC
     @RequestMapping(method = RequestMethod.GET, path = "/selectAllUsersFromPage")
     @ResponseBody
     Page<UserDto> selectAllUsersFromPage(Pageable pageable);

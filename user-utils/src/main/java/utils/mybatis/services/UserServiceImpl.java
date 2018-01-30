@@ -11,7 +11,6 @@ import utils.mybatis.dto.mappers.UserDtoMapper;
 import utils.mybatis.error.handler.UserDataNotFoundException;
 import utils.mybatis.interfaces.UserService;
 import utils.mybatis.mapper.UserDbMapper;
-import utils.mybatis.enums.SortTypes;
 import utils.mybatis.enums.UserColumns;
 import webapi.mybatis.dto.UserDto;
 
@@ -29,20 +28,25 @@ public class UserServiceImpl implements UserService {
     private final PageableServiceImpl pageableService;
 
     private static final String DEF_COL_NAME = SortCriteria.DEFAULT_COLUMN_NAME;
+    private static final String PAGE_NUMBER = SortCriteria.PAGE_NUMBER;
+    private static final String MAX_ITEMS_PER_PAGE = SortCriteria.MAX_ITEMS_PER_PAGE;
+    private static final String SORT_BY_COLUMN = SortCriteria.SORT_BY_COLUMN;
+    private static final String ORDER_TYPE = SortCriteria.ORDER_TYPE;
 
     public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
 
-        int pageNo = pageableService.pageNumberSizeAndOffset(pageable).get(SortCriteria.PAGE_NUMBER);
-        int itemsSize = pageableService.pageNumberSizeAndOffset(pageable).get(SortCriteria.MAX_ITEMS_PER_PAGE);
+        Map<String, Integer> sortProperty = pageableService.pageNumberSizeAndOffset(pageable);
+        int pageNo = sortProperty.get(PAGE_NUMBER);
+        int itemsSize = sortProperty.get(MAX_ITEMS_PER_PAGE);
 
         List<String> orders = pageableService.sortByColumnAndOrderAllParameters(pageable, DEF_COL_NAME);
         Map<String, String> sortCriteria = pageableService.nthSortCriteria(orders, 0);
 
-        String columnName = sortCriteria.get(SortCriteria.SORT_BY_COLUMN);
-        String orderType = sortCriteria.get(SortCriteria.ORDER_TYPE);
+        String columnName = sortCriteria.get(SORT_BY_COLUMN);
+        String orderType = sortCriteria.get(ORDER_TYPE);
 
-        String sort = pageableService.orderTypeEnumValue(orderType);
-        List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, sort);
+        String orderTypeEnumValue = pageableService.orderTypeEnumValue(orderType);
+        List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, orderTypeEnumValue);
 
         return pageableService.resultList(userList, pageable, userCount(), DEF_COL_NAME);
     }
