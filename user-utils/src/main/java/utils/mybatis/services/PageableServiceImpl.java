@@ -68,10 +68,10 @@ public class PageableServiceImpl implements IPageableService {
     }
 
     public RowBounds rowBoundsParam(int pageNumber, int itemsPerPage) {
-
+        //pageNumber from 1
         RowBounds rowbounds = new RowBounds();
         int offset = (pageNumber - 1) * itemsPerPage;
-        if (pageNumber > 0) {
+        if (pageNumber != 0) {
             rowbounds = new RowBounds(offset, itemsPerPage);
         }
         return rowbounds;
