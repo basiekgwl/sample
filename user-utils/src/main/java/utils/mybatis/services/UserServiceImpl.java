@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         String columnName = sortCriteria.get(SortCriteria.SORT_BY_COLUMN);
         String orderType = sortCriteria.get(SortCriteria.ORDER_TYPE);
 
-        SortTypes sort = pageableService.orderTypeEnum(orderType);
+        String sort = pageableService.orderTypeEnumValue(orderType);
         List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, sort);
 
         return pageableService.resultList(userList, pageable, userCount());
@@ -49,15 +49,14 @@ public class UserServiceImpl implements UserService {
         return userDbMapper.countAll();
     }
 
-    private List<UserDto> selectAllUsers(int pageNumber, int size, String columnName, SortTypes sortType) {
+    private List<UserDto> selectAllUsers(int pageNumber, int size, String columnName, String orderType) {
 
         String selectByColumn =  UserColumns.valueOf(columnName).getColumnName();
         log.info("Sort by column: " + selectByColumn);
 
-        String sortByColumnName = pageableService.returnSortTypeValue(sortType);
         RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageNumber, size);
 
-        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(selectByColumn, sortByColumnName, rowBoundsParam);
+        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(selectByColumn, orderType, rowBoundsParam);
         return returnListMap(currentPageRows);
     }
 

@@ -57,8 +57,9 @@ public class PageableServiceImpl implements IPageableService {
         return pageableSortData;
     }
 
-    public SortTypes orderTypeEnum(String orderType) {
-        return SortTypes.valueOf(orderType);
+    public String orderTypeEnumValue(String orderType) {
+        SortTypes sortType = SortTypes.valueOf(orderType);
+        return returnSortTypeValue(sortType);
     }
 
     public <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount) {

@@ -14,7 +14,7 @@ public interface IPageableService {
 
     List<String> sortByColumnAndOrderAllParameters(Pageable pageable, String sortByDefaultColumnName);
 
-    SortTypes orderTypeEnum(String orderType);
+    String orderTypeEnumValue(String orderType);
 
     Map<String, String> nthSortCriteria(List<String> orderCriteria, int number);
 
