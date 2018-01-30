@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import webapi.mybatis.dict.SortTypes;
 import webapi.mybatis.dto.AccountsWithUserDto;
 import webapi.mybatis.dto.UserDto;
 

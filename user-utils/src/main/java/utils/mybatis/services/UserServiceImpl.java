@@ -42,11 +42,7 @@ public class UserServiceImpl implements UserService {
         SortTypes sort = pageableService.orderTypeEnum(orderType);
         List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, sort);
 
-        //pageable = new PageRequest(pageNo-1, itemsSize, sortProperties);
-        //return new PageImpl<>(userList, pageable, userCount());
-
         return pageableService.resultList(userList, pageable, userCount());
-
     }
 
     public int userCount() {
@@ -54,13 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private List<UserDto> selectAllUsers(int pageNumber, int size, String columnName, SortTypes sortType) {
-        UserColumns colName = UserColumns.valueOf(columnName);
-        String selectByColumn;
-        if (columnName != null) {
-            selectByColumn = colName.getColumnName();
-        } else {
-            selectByColumn = SortCriteria.SORT_BY_DEFAULT;
-        }
+
+        String selectByColumn =  UserColumns.valueOf(columnName).getColumnName();
         log.info("Sort by column: " + selectByColumn);
 
         String sortByColumnName = pageableService.returnSortTypeValue(sortType);
