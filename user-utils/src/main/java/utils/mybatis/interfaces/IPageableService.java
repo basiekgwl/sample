@@ -20,7 +20,7 @@ public interface IPageableService {
 
     String returnSortTypeValue(SortTypes sortType);
 
-    <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount);
+    <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount, String defaultColName);
 
     RowBounds rowBoundsParam(int pageNumber, int itemsPerPage);
 }

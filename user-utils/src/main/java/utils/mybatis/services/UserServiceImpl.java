@@ -28,12 +28,14 @@ public class UserServiceImpl implements UserService {
     private final UserDbMapper userDbMapper;
     private final PageableServiceImpl pageableService;
 
+    private static final String DEF_COL_NAME = SortCriteria.DEFAULT_COLUMN_NAME;
+
     public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
 
         int pageNo = pageableService.pageNumberSizeAndOffset(pageable).get(SortCriteria.PAGE_NUMBER);
         int itemsSize = pageableService.pageNumberSizeAndOffset(pageable).get(SortCriteria.MAX_ITEMS_PER_PAGE);
 
-        List<String> orders = pageableService.sortByColumnAndOrderAllParameters(pageable, SortCriteria.DEFAULT_COLUMN_NAME);
+        List<String> orders = pageableService.sortByColumnAndOrderAllParameters(pageable, DEF_COL_NAME);
         Map<String, String> sortCriteria = pageableService.nthSortCriteria(orders, 0);
 
         String columnName = sortCriteria.get(SortCriteria.SORT_BY_COLUMN);
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
         String sort = pageableService.orderTypeEnumValue(orderType);
         List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, sort);
 
-        return pageableService.resultList(userList, pageable, userCount());
+        return pageableService.resultList(userList, pageable, userCount(), DEF_COL_NAME);
     }
 
     public int userCount() {
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     private List<UserDto> selectAllUsers(int pageNumber, int size, String columnName, String orderType) {
 
-        String selectByColumn =  UserColumns.valueOf(columnName).getColumnName();
+        String selectByColumn = UserColumns.valueOf(columnName).getColumnName();
         log.info("Sort by column: " + selectByColumn);
 
         RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageNumber, size);

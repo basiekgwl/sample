@@ -1,5 +1,6 @@
 package utils.mybatis.services;
 
+import com.github.miemiedev.mybatis.paginator.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
@@ -62,17 +63,20 @@ public class PageableServiceImpl implements IPageableService {
         return returnSortTypeValue(sortType);
     }
 
-    public <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount) {
-        int pageNumber = pageable.getPageNumber() - 1;
-        Pageable newPageableData = new PageRequest(pageNumber, pageable.getPageSize(), pageable.getSort());
+    public <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount, String defaultColName) {
+        Sort sortCriteria = pageable.getSort();
+        if (sortCriteria == null) {
+            sortCriteria = setSortCriteriaIfNull(defaultColName);
+        }
+        Pageable newPageableData = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sortCriteria);
         return new PageImpl<>(rowsOnTheCurrentPage, newPageableData, totalCount);
     }
 
     public RowBounds rowBoundsParam(int pageNumber, int itemsPerPage) {
-        //pageNumber from 1
+        //pageNumber from 0
         RowBounds rowbounds = new RowBounds();
-        int offset = (pageNumber - 1) * itemsPerPage;
-        if (pageNumber != 0) {
+        int offset = pageNumber * itemsPerPage;
+        if (pageNumber > -1 ) {
             rowbounds = new RowBounds(offset, itemsPerPage);
         }
         return rowbounds;
@@ -84,6 +88,10 @@ public class PageableServiceImpl implements IPageableService {
 
     private String setSortCriteria(String sortCriteria, String defaultValue) {
         return (sortCriteria == null) ? defaultValue : sortCriteria;
+    }
+
+    private Sort setSortCriteriaIfNull(String sortByDefaultColumnName) {
+        return new Sort(new Sort.Order(Sort.Direction.ASC, sortByDefaultColumnName));
     }
 
     private List<String> setDefaultOrderCriteriaIfSortIsNull(String defaultColumnName) {
