@@ -82,10 +82,7 @@ public class PageableServiceImpl implements IPageableService {
     }
 
     private String setSortCriteria(String sortCriteria, String defaultValue) {
-        if (sortCriteria == null) {
-            sortCriteria = defaultValue;
-        }
-        return sortCriteria;
+        return (sortCriteria == null) ? defaultValue : sortCriteria;
     }
 
     private List<String> setDefaultOrderCriteriaIfSortIsNull(String defaultColumnName) {

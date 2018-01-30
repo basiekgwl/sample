@@ -13,8 +13,6 @@ public final class SortCriteria {
     public static final String ORDER_TYPE = "orderType";
 
     public static final String DEFAULT_COLUMN_NAME = "NAME";
-
     public static final String SORT_BY_DEFAULT = "user_name";
     public static final String DEFAULT_ORDER_TYPE = "ASC";
-
 }
