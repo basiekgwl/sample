@@ -40,10 +40,13 @@ public class UserServiceImpl implements UserService {
         String orderType = sortCriteria.get(SortCriteria.ORDER_TYPE);
 
         SortTypes sort = pageableService.orderTypeEnum(orderType);
-        List<UserDto> userList = selectAllUsers(pageNo + 1, itemsSize, columnName, sort);
+        List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, sort);
 
-        //Pageable newPageableIfPageNoFromOne = new PageRequest(pageNo-1, itemsSize, sortProperties);
-        return new PageImpl<>(userList, pageable, userCount());
+        //pageable = new PageRequest(pageNo-1, itemsSize, sortProperties);
+        //return new PageImpl<>(userList, pageable, userCount());
+
+        return pageableService.resultList(userList, pageable, userCount());
+
     }
 
     public int userCount() {
@@ -60,7 +63,10 @@ public class UserServiceImpl implements UserService {
         }
         log.info("Sort by column: " + selectByColumn);
 
-        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(selectByColumn, returnSortTypeValue(sortType), rowBoundsParam(pageNumber, size));
+        String sortByColumnName = pageableService.returnSortTypeValue(sortType);
+        RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageNumber, size);
+
+        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(selectByColumn, sortByColumnName, rowBoundsParam);
         return returnListMap(currentPageRows);
     }
 
@@ -86,20 +92,4 @@ public class UserServiceImpl implements UserService {
         return userListDto;
     }
 
-    private RowBounds rowBoundsParam(int pageNumber, int itemsPerPage) {
-
-        int offset = (pageNumber - 1) * itemsPerPage;
-        RowBounds rowbounds = new RowBounds();
-        if (pageNumber != 0) {
-            rowbounds = new RowBounds(offset, itemsPerPage);
-        }
-        return rowbounds;
-    }
-
-    private String returnSortTypeValue(SortTypes sortType) {
-        String sortOrder = sortType.getSortType();
-
-        log.info("SORT TYPE: " + sortOrder);
-        return sortOrder;
-    }
 }

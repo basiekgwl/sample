@@ -1,8 +1,9 @@
 package utils.mybatis.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import utils.mybatis.interfaces.IPageableService;
@@ -16,6 +17,7 @@ import java.util.Map;
 @Validated
 @Service
 @AllArgsConstructor
+@Slf4j
 public class PageableServiceImpl implements IPageableService {
 
     public Map<String, Integer> pageNumberSizeAndOffset(Pageable pageable) {
@@ -59,7 +61,6 @@ public class PageableServiceImpl implements IPageableService {
         return SortTypes.valueOf(orderType);
     }
 
-
     private String setSortCriteria(String sortCriteria, String defaultValue) {
         if (sortCriteria == null) {
             sortCriteria = defaultValue;
@@ -72,5 +73,25 @@ public class PageableServiceImpl implements IPageableService {
         String orderType = SortCriteria.DEFAULT_ORDER_TYPE;
         orders.add(String.format("%s %s", defaultColumnName, orderType));
         return orders;
+    }
+
+    public <T> Page<T> resultList(List<T> rowsOnTheCurrentPage, Pageable pageable, int totalCount) {
+        int pageNumber = pageable.getPageNumber() - 1;
+        Pageable newPageableData = new PageRequest(pageNumber, pageable.getPageSize(), pageable.getSort());
+        return new PageImpl<>(rowsOnTheCurrentPage, newPageableData, totalCount);
+    }
+
+    public RowBounds rowBoundsParam(int pageNumber, int itemsPerPage) {
+
+        int offset = (pageNumber - 1) * itemsPerPage;
+        RowBounds rowbounds = new RowBounds();
+        if (pageNumber != 0) {
+            rowbounds = new RowBounds(offset, itemsPerPage);
+        }
+        return rowbounds;
+    }
+
+    public String returnSortTypeValue(SortTypes sortType) {
+        return sortType.getSortType();
     }
 }
