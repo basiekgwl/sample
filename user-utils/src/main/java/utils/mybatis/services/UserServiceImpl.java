@@ -33,10 +33,7 @@ public class UserServiceImpl implements UserService {
         RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageable);
         Sort sortCriteria = pageableService.allSortCriteria(pageable, DEFAULT_COLUMN_NAME);
         Sort.Order orderType = pageableService.returnFirstSortOrder(sortCriteria);
-
-        Sort.Order firstType = pageableService.nthSortCriteria(sortCriteria, 0);
-        log.info("<Temp> For debug - Sort.order nth data (0): " + firstType.toString());
-
+        
         List<UserDto> userList = selectAllUsers(orderType.getProperty(), orderType.getDirection().name(), rowBoundsParam);
         return pageableService.resultList(userList, pageable, userCount(), DEFAULT_COLUMN_NAME);
     }
