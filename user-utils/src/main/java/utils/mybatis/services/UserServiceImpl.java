@@ -15,7 +15,6 @@ import utils.mybatis.mapper.UserDbMapper;
 import utils.mybatis.enums.UserColumns;
 import webapi.mybatis.dto.UserDto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
         }
         return returnListMap(results);
     }
-    
+
     private List<UserDto> selectAllUsers(Sort.Order orderCriteria, RowBounds rowBoundsParam) {
 
         String selectByColumn = UserColumns.valueOf(orderCriteria.getProperty()).getColumnName();
