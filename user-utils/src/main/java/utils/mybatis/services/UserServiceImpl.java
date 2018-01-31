@@ -49,15 +49,6 @@ public class UserServiceImpl implements UserService {
         return userDbMapper.countAll();
     }
 
-    private List<UserDto> selectAllUsers(Sort.Order orderCriteria, RowBounds rowBoundsParam) {
-
-        String selectByColumn = UserColumns.valueOf(orderCriteria.getProperty()).getColumnName();
-        SortListParameters sortData = new SortListParameters(selectByColumn, orderCriteria.getDirection().name());
-
-        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(sortData, rowBoundsParam);
-        return returnListMap(currentPageRows);
-    }
-
     public List<UserDto> getUserListByName(String fullName) {
 
         List<UserEntity> results = userDbMapper.findByUserFullName(fullName);
@@ -67,6 +58,15 @@ public class UserServiceImpl implements UserService {
             throw new UserDataNotFoundException();
         }
         return returnListMap(results);
+    }
+    
+    private List<UserDto> selectAllUsers(Sort.Order orderCriteria, RowBounds rowBoundsParam) {
+
+        String selectByColumn = UserColumns.valueOf(orderCriteria.getProperty()).getColumnName();
+        SortListParameters sortData = new SortListParameters(selectByColumn, orderCriteria.getDirection().name());
+
+        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(sortData, rowBoundsParam);
+        return returnListMap(currentPageRows);
     }
 
     private List<UserDto> returnListMap(List<UserEntity> currentPageRows) {
