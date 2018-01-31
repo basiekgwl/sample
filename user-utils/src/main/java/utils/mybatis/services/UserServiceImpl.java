@@ -16,7 +16,6 @@ import webapi.mybatis.dto.UserDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Validated
@@ -27,40 +26,27 @@ public class UserServiceImpl implements UserService {
     private final UserDbMapper userDbMapper;
     private final PageableServiceImpl pageableService;
 
-    private static final String DEF_COL_NAME = SortCriteria.DEFAULT_COLUMN_NAME;
-    private static final String PAGE_NUMBER = SortCriteria.PAGE_NUMBER;
-    private static final String MAX_ITEMS_PER_PAGE = SortCriteria.MAX_ITEMS_PER_PAGE;
-    private static final String SORT_BY_COLUMN = SortCriteria.SORT_BY_COLUMN;
-    private static final String ORDER_TYPE = SortCriteria.ORDER_TYPE;
+    private static final String DEFAULT_COLUMN_NAME = SortCriteria.DEFAULT_COLUMN_NAME;
 
     public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
 
-        Map<String, Integer> sortProperty = pageableService.pageNumberSizeAndOffset(pageable);
-        int pageNo = sortProperty.get(PAGE_NUMBER);
-        int itemsSize = sortProperty.get(MAX_ITEMS_PER_PAGE);
+        RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageable);
+        Sort sortCriteria = pageableService.allSortCriteria(pageable, DEFAULT_COLUMN_NAME);
+        Sort.Order orderType = pageableService.returnFirstSortOrder(sortCriteria);
 
-        List<String> orders = pageableService.sortByColumnAndOrderAllParameters(pageable, DEF_COL_NAME);
-        Map<String, String> sortCriteria = pageableService.nthSortCriteria(orders, 0);
+        List<UserDto> userList = selectAllUsers(orderType.getProperty(), orderType.getDirection().name(), rowBoundsParam);
 
-        String columnName = sortCriteria.get(SORT_BY_COLUMN);
-        String orderType = sortCriteria.get(ORDER_TYPE);
-
-        String orderTypeEnumValue = pageableService.orderTypeEnumValue(orderType);
-        List<UserDto> userList = selectAllUsers(pageNo, itemsSize, columnName, orderTypeEnumValue);
-
-        return pageableService.resultList(userList, pageable, userCount(), DEF_COL_NAME);
+        return pageableService.resultList(userList, pageable, userCount(), DEFAULT_COLUMN_NAME);
     }
 
     public int userCount() {
         return userDbMapper.countAll();
     }
 
-    private List<UserDto> selectAllUsers(int pageNumber, int size, String columnName, String orderType) {
+    private List<UserDto> selectAllUsers(String columnName, String orderType, RowBounds rowBoundsParam) {
 
         String selectByColumn = UserColumns.valueOf(columnName).getColumnName();
         log.info("Sort by column: " + selectByColumn);
-
-        RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageNumber, size);
 
         List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(selectByColumn, orderType, rowBoundsParam);
         return returnListMap(currentPageRows);

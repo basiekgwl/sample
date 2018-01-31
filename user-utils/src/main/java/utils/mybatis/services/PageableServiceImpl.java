@@ -9,10 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import utils.mybatis.interfaces.IPageableService;
 import utils.mybatis.enums.SortTypes;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Validated
 @Service
@@ -20,44 +17,34 @@ import java.util.Map;
 @Slf4j
 public class PageableServiceImpl implements IPageableService {
 
-    private static final String DEFAULT_ORDER_TYPE = SortCriteria.DEFAULT_ORDER_TYPE;
-
-    public Map<String, Integer> pageNumberSizeAndOffset(Pageable pageable) {
-
-        Map<String, Integer> pageableData = new LinkedHashMap<>();
-        pageableData.put(SortCriteria.PAGE_NUMBER, pageable.getPageNumber());
-        pageableData.put(SortCriteria.MAX_ITEMS_PER_PAGE, pageable.getPageSize());
-        pageableData.put(SortCriteria.OFFSET, pageable.getOffset());
-
-        return pageableData;
+    public Sort allSortCriteria(Pageable pageable, String sortByDefaultColumnName) {
+        Sort sortProperties = pageable.getSort();
+        if (sortProperties == null) {
+            return setSortCriteriaIfNull(sortByDefaultColumnName);
+        } else {
+            return sortProperties;
+        }
     }
 
-    public List<String> sortByColumnAndOrderAllParameters(Pageable pageable, String sortByDefaultColumnName) {
+    public Sort.Order returnFirstSortOrder(Sort sortOrders) {
 
-        Sort sortProperties = pageable.getSort();
-        List<String> orders = new ArrayList<>();
-
-        if (sortProperties == null) {
-            orders = setDefaultOrderCriteriaIfSortIsNull(sortByDefaultColumnName);
+        if (sortOrders.iterator().hasNext()) {
+            return sortOrders.iterator().next();
         } else {
-            for (Sort.Order order : sortProperties) {
-                String columnName = setSortCriteria(order.getProperty(), sortByDefaultColumnName);
-                String orderType = setSortCriteria(order.getDirection().name(), DEFAULT_ORDER_TYPE);
-                orders.add(String.format("%s %s", columnName, orderType));
+            return null;
+        }
+    }
+
+    public Sort.Order nthSortCriteria(Sort sortOrders, int number) {
+        int it = 0;
+        for (Sort.Order order : sortOrders) {
+            if (it == number) {
+                return order;
+            } else {
+                it++;
             }
         }
-        return orders;
-    }
-
-    public Map<String, String> nthSortCriteria(List<String> orderCriteria, int number) {
-
-        Map<String, String> pageableSortData = new LinkedHashMap<>();
-        String columnName = orderCriteria.get(number).split(" ")[0];
-        String orderType = orderCriteria.get(number).split(" ")[1];
-
-        pageableSortData.put(SortCriteria.SORT_BY_COLUMN, columnName);
-        pageableSortData.put(SortCriteria.ORDER_TYPE, orderType);
-        return pageableSortData;
+        return null;
     }
 
     public String orderTypeEnumValue(String orderType) {
@@ -74,11 +61,14 @@ public class PageableServiceImpl implements IPageableService {
         return new PageImpl<>(rowsOnTheCurrentPage, newPageableData, totalCount);
     }
 
-    public RowBounds rowBoundsParam(int pageNumber, int itemsPerPage) {
+    public RowBounds rowBoundsParam(Pageable pageable) {
         //pageNumber from 0
+
+        int pageNumber = pageable.getPageNumber();
+        int itemsPerPage = pageable.getPageSize();
         RowBounds rowbounds = new RowBounds();
         int offset = pageNumber * itemsPerPage;
-        if (pageNumber > -1 ) {
+        if (pageNumber > -1) {
             rowbounds = new RowBounds(offset, itemsPerPage);
         }
         return rowbounds;
@@ -94,11 +84,5 @@ public class PageableServiceImpl implements IPageableService {
 
     private Sort setSortCriteriaIfNull(String sortByDefaultColumnName) {
         return new Sort(new Sort.Order(Sort.Direction.ASC, sortByDefaultColumnName));
-    }
-
-    private List<String> setDefaultOrderCriteriaIfSortIsNull(String defaultColumnName) {
-        List<String> orders = new ArrayList<>();
-        orders.add(String.format("%s %s", defaultColumnName, DEFAULT_ORDER_TYPE));
-        return orders;
     }
 }
