@@ -3,6 +3,7 @@ package utils.mybatis.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import utils.mybatis.interfaces.UserService;
 import webapi.mybatis.api.IUserController;
 import utils.mybatis.dao.UserAccountEntity;
@@ -45,7 +46,7 @@ public class UserController extends AbstractController implements IUserControlle
     }
 
     //DTO
-    public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
+    public Page<UserDto> selectAllUsersFromPage(@PageableDefault(size = 50) Pageable pageable) {
         return userService.selectAllUsersFromPage(pageable);
     }
 

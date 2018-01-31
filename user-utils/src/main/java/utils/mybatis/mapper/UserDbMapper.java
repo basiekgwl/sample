@@ -5,6 +5,7 @@ import utils.mybatis.dao.UserEntity;
 import utils.mybatis.dao.UserAccountEntity;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestParam;
+import utils.mybatis.services.SortListParameters;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -42,7 +43,7 @@ public interface UserDbMapper {
     void deleteUserWithAccounts(@RequestParam("nik") @NotNull String nik);
 
     @ResultMap("UserMap2")
-    List<UserEntity> selectAllUsers(@Param("selectByColumn") String selectByColumn, @Param("sortType") String sortType, RowBounds rowbounds);
+    List<UserEntity> selectAllUsers(SortListParameters sortListParameters, RowBounds rowbounds);
 
     @ResultMap("UserMap2")
     @Update("UPDATE user SET user_name=#{userFullName}, user_nip=#{userNip}, user_pesel=#{userPesel}," +

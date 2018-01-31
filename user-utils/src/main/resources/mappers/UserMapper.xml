@@ -89,8 +89,8 @@
         select * from user_accounts where account_nrb =  #{nrb};
     </select>
 
-    <select id="selectAllUsers" resultMap="UserMap2" resultType="utils.mybatis.dao.UserEntity">
-        select * from USER order by ${selectByColumn} ${sortType}, id ASC;
+    <select id="selectAllUsers" resultMap="UserMap2" parameterType="utils.mybatis.services.SortListParameters" resultType="utils.mybatis.dao.UserEntity">
+        select * from USER order by ${columnName} ${sortType}, id ASC;
     </select>
 
     <sql id="queryUserConditions">

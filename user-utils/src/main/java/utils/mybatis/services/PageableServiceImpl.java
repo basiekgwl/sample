@@ -9,7 +9,9 @@ import org.springframework.validation.annotation.Validated;
 import utils.mybatis.interfaces.IPageableService;
 import utils.mybatis.enums.SortTypes;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Validated
 @Service
@@ -84,5 +86,25 @@ public class PageableServiceImpl implements IPageableService {
 
     private Sort setSortCriteriaIfNull(String sortByDefaultColumnName) {
         return new Sort(new Sort.Order(Sort.Direction.ASC, sortByDefaultColumnName));
+    }
+
+    public<D> Page<D> selectAllUsersFromPage(Pageable pageable, int totalCount, String defaultColName, TriConsumer<List<D>, Sort.Order, RowBounds> rowsOnCurrentPageDto) {
+
+        RowBounds rowBoundsParam = this.rowBoundsParam(pageable);
+        Sort sortCriteria = this.allSortCriteria(pageable, defaultColName);
+        Sort.Order orderType = this.returnFirstSortOrder(sortCriteria);
+        List<D> listDto = rowsOnCurrentPageDto.apply(orderType, rowBoundsParam);
+        return this.resultList(listDto, pageable, totalCount, defaultColName);
+    }
+
+    public <D, E> List<D> entityListToDtoList(List<E> currentPageRows, Function<E, D> myLambda) {
+        List<D> listDto = new ArrayList<>();
+        for (E userEntity : currentPageRows) {
+            D userDto = myLambda.apply(userEntity);
+            log.info("BEFORE: EntityData: " + userEntity);
+            log.info("AFTER mapping: DTO Data: " + userDto);
+            listDto.add(userDto);
+        }
+        return listDto;
     }
 }

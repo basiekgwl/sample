@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import utils.mybatis.dao.UserEntity;
 import utils.mybatis.dto.mappers.UserDtoMapper;
 import utils.mybatis.error.handler.UserDataNotFoundException;
+import utils.mybatis.interfaces.IPageableService;
 import utils.mybatis.interfaces.UserService;
 import utils.mybatis.mapper.UserDbMapper;
 import utils.mybatis.enums.UserColumns;
@@ -16,6 +17,7 @@ import webapi.mybatis.dto.UserDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Slf4j
 @Validated
@@ -28,26 +30,31 @@ public class UserServiceImpl implements UserService {
 
     private static final String DEFAULT_COLUMN_NAME = SortCriteria.DEFAULT_COLUMN_NAME;
 
+
     public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
 
-        RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageable);
-        Sort sortCriteria = pageableService.allSortCriteria(pageable, DEFAULT_COLUMN_NAME);
-        Sort.Order orderType = pageableService.returnFirstSortOrder(sortCriteria);
-        
-        List<UserDto> userList = selectAllUsers(orderType.getProperty(), orderType.getDirection().name(), rowBoundsParam);
-        return pageableService.resultList(userList, pageable, userCount(), DEFAULT_COLUMN_NAME);
+        IPageableService.TriConsumer<List<UserDto>, Sort.Order, RowBounds> userDtoList = this::selectAllUsers;
+        return pageableService.selectAllUsersFromPage(pageable, userCount(), DEFAULT_COLUMN_NAME, userDtoList);
     }
+
+//    public Page<UserDto> selectAllUsersFromPage(Pageable pageable) {
+//        RowBounds rowBoundsParam = pageableService.rowBoundsParam(pageable);
+//        Sort sortCriteria = pageableService.allSortCriteria(pageable, DEFAULT_COLUMN_NAME);
+//        Sort.Order orderType = pageableService.returnFirstSortOrder(sortCriteria);
+//        List<UserDto> userList = selectAllUsers(orderType.getProperty(), orderType.getDirection().name(), rowBoundsParam);
+//        return pageableService.resultList(userList, pageable, userCount(), DEFAULT_COLUMN_NAME);
+//    }
 
     public int userCount() {
         return userDbMapper.countAll();
     }
 
-    private List<UserDto> selectAllUsers(String columnName, String orderType, RowBounds rowBoundsParam) {
+    private List<UserDto> selectAllUsers(Sort.Order orderCriteria, RowBounds rowBoundsParam) {
 
-        String selectByColumn = UserColumns.valueOf(columnName).getColumnName();
-        log.info("Sort by column: " + selectByColumn);
+        String selectByColumn = UserColumns.valueOf(orderCriteria.getProperty()).getColumnName();
+        SortListParameters sortData = new SortListParameters(selectByColumn, orderCriteria.getDirection().name());
 
-        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(selectByColumn, orderType, rowBoundsParam);
+        List<UserEntity> currentPageRows = userDbMapper.selectAllUsers(sortData, rowBoundsParam);
         return returnListMap(currentPageRows);
     }
 
@@ -63,14 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private List<UserDto> returnListMap(List<UserEntity> currentPageRows) {
-        List<UserDto> userListDto = new ArrayList<>();
-        for (UserEntity userEntity : currentPageRows) {
-            UserDto userDto = UserDtoMapper.mapUserEntityToDto(userEntity);
-            log.info("BEFORE - EntityData: UserData: " + userEntity);
-            log.info("AFTER: DTO Data: " + userDto);
-            userListDto.add(userDto);
-        }
-        return userListDto;
+        Function<UserEntity, UserDto> getNameLambda = UserDtoMapper::mapUserEntityToDto;
+        return pageableService.entityListToDtoList(currentPageRows, getNameLambda);
     }
-
 }
